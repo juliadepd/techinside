@@ -198,3 +198,9 @@ select {
 .esqueceu-senha {
   display: none;
 }
+
+a {
+  color: white;
+  text-decoration: none;
+
+}
