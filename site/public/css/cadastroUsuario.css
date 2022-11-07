@@ -1,0 +1,160 @@
+*{
+    margin: 0%;
+    padding: 0;
+    text-decoration: none;
+}
+
+body {
+	margin: 0;
+	min-height: 100vh;
+	font-family: sans-serif;
+    background: linear-gradient( to right, #131764 20%, #140b3f , #2D073D, #260427 );;
+}
+
+a {
+	text-decoration:none;
+	color: white;
+	transition:ease 0.3s; 
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	font-family: "Fredoka", sans-serif;
+	box-sizing: border-box; /* Amassa os elementos para dentro */
+	position: sticky; /* Deixa o header grudado no topo da tela */
+	top: 0;
+	z-index: 999; /* Define a dimensão do elemento */
+	height: 11vh;
+	width: 100%;
+	font-size: 1rem;
+	padding: 0 30px;
+	background: transparent;
+}
+
+.main-nav {
+	display: flex;
+	align-items: center;
+}
+
+.main-nav ul {
+	display: flex;
+	align-items: center;
+	list-style-type: none;
+	column-gap: 40px;
+    text-decoration: none;
+    color: aqua;
+  
+}
+
+.logo {
+	display: flex;
+	align-items: center;
+}
+
+.logo img {
+	height: 9vh;
+}
+
+::-webkit-input-placeholder{
+    color: white;
+}
+
+.bem-vindo #txt{
+    color: white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin-bottom: 8vh;
+}
+
+
+#container{
+    display: flex;
+	justify-content: initial;
+	align-items:center;
+	position:relative;
+	height: 80vh;
+    
+}
+
+.card{
+    align-items: center;
+    height: 50vh;
+    width: 50vw;
+     
+     padding: 8px;
+     text-align: center;
+      }
+
+.card input{
+        width: 38vw;
+        height: 6vh;
+        border-radius: 5px;
+        background-color: #050729;
+        font-size:1.6vh;
+        margin:1vh; 
+        border:none;
+        text-align:center;
+        color: white;
+            
+      }
+
+    
+ 
+
+    .card button {
+        margin-top: 5vh;
+        width: 38vw;
+        height: 6vh;
+        background-color: #8738EB;
+        border: none;
+        color: white;
+        border-radius: 5px;
+
+    }
+
+
+.card button:hover
+ {
+	background-color: rgb(17, 23, 152);
+    transition: ease 0.7s;
+    
+}
+
+.card button:active
+ {
+	transform: translateY(1vh);
+	box-shadow: none;	
+    background: #8738EB;
+}
+
+
+
+
+.footer-container {
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+	background: transparent;
+	height: 9vh;
+	color: white;
+	font-size: 1.8vh;
+    bottom: 100%;
+   
+}
+
+.container-decoration{
+    background:linear-gradient(transparent,#8738EB);
+    height: 80vh;
+    width: 35vw;
+    border: 10vh;
+    border-bottom-left-radius: 180vh;
+    border-bottom-right-radius: 180vh;
+    text-align: center;
+    color: white;
+    font-size: 6vh;
+    
+}
+
+.container-decoration h1{
+    margin-top: 25vh;
+}

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tech Inside | Início</title>
+
+  <script src="./js/funcoes.js"></script>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/geral.css">
+  <link rel="icon" type="image/x-icon" href="assets/trimmed-icon.png">
+</head>
+
+<body onload="limparSessaoUPDATE()">
+  <section id="inicio">
+    <header class="header">
+      <div class="header__container">
+
+        <a href="index.html" class="header__logo">
+          <img src="assets/logo-versao1.png" alt="Tech Inside">
+        </a>
+
+        <nav class="navbar">
+          <div class="futura-sidebar">
+            <a href="index.html#sobre" class="navbar__itens">Sobre</a>
+            <a href="index.html#portifolio" class="navbar__itens">Portifólio</a>
+            <a href="login.html" class="navbar__itens">Entrar</a>
+          </div>
+
+          <a href="cadastroEmpresa.html" class="navbar__itens a-cadastro">Comece agora</a>
+
+          <div class="hidden-menu">
+            <img src="assets/img-menu.png" class="img-open" alt="Menu Lateral">
+
+            <ul id="menu" style="display: none;">
+              <li>
+                <img src="assets/home-icon.png" alt="início">
+                <a href="#index.html" class="navbar__itens">Início</a>
+              </li>
+              <li>
+                <img src="assets/sobre-icon.png" alt="sobre">
+                <a href="#sobre" class="navbar__itens">sobre</a>
+              </li>
+              <li>
+                <img src="assets/portifolio-icon.png" alt="portifolio">
+                <a href="#portifolio" class="navbar__itens">Portifólio</a>
+              </li>
+              <li>
+                <img src="assets/login-icon.png" alt="login">
+                <a href="login.html" class="navbar__itens">Entrar</a>
+              </li>
+              <li>
+                <img src="assets/cadastro-icon.png" alt="cadastro">
+                <a href="cadastroEmpresa.html" class="navbar__itens">Cadastre-se</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <header class="header">
+      <div class="header__container">
+
+        <a href="index.html" class="header__logo">
+          <img src="assets/logo-versao1.png" alt="Tech Inside">
+        </a>
+
+        <nav class="navbar">
+          <div class="futura-sidebar">
+            <a href="index.html#sobre" class="navbar__itens">sobre</a>
+            <a href="index.html#portifolio" class="navbar__itens">Portifólio</a>
+            <a href="login.html" class="navbar__itens">Entrar</a>
+          </div>
+
+          <a href="cadastroEmpresa.html" class="navbar__itens a-cadastro">Comece agora</a>
+
+          <div class="hidden-menu">
+            <img src="assets/img-menu.png" alt="Menu Lateral" class="img-open">
+
+            <ul id="menu">
+
+              <a href="" class="menu__logo">
+                <img src="assets/logo-versao1.png" alt="Tech Inside">
+              </a>
+
+              <li">
+                <img src="assets/home-icon.png" alt="início">
+                <a href="#index.html" class="navbar__itens agora">Início</a>
+              </li>
+              <li>
+                <img src="assets/sobre-icon.png" alt="sobre">
+                <a href="index.html#sobre" class="navbar__itens">sobre</a>
+              </li>
+              <li>
+                <img src="assets/portifolio-icon.png" alt="portifolio">
+                <a href="index.html#portifolio" class="navbar__itens">Portifólio</a>
+              </li>
+              <li>
+                <img src="assets/login-icon.png" alt="login">
+                <a href="login.html" class="navbar__itens">Entrar</a>
+              </li>
+              <li>
+                <img src="assets/cadastro-icon.png" alt="cadastro">
+                <a href="cadastroEmpresa.html" class="navbar__itens">Cadastre-se</a>
+              </li>
+            </ul>
+          </div>
+
+        </nav>
+      </div>
+    </header>
+
+    <div class="container--geral login">
+      <div class="column1">
+        <h1 class="title">Confirme seus dados</h1>
+
+        <div class="div-ipts">
+          <input type="text" id="ipt_email" class="ipt" placeholder="E-mail">
+          <input type="text" id="ipt_cpf" class="ipt" placeholder="CPF">
+        </div>
+
+        <button class="button--geral" id="enviar-bnt" onclick="solicitacao()">Enviar</button>
+        <a href="novaSenha.html" class="esqueceu-senha"></a>
+      </div>
+
+      <div class="column2">
+        <img src="assets/trimmed-icon.png" alt="" class="column2-logo" />
+        <h2 class="title title--column2">Não possui uma conta?</h2>
+        <a href="cadastroEmpresa.html" class="column2-button">Registre-se</a>
+      </div>
+    </div>
+
+  </section>
+
+  <div class="footer-container">
+    <p class="copyright">
+      Copyright © 2022 Tech Inside | Todos os direitos
+      reservados.
+    </p>
+  </div>
+
+
+</body>
+
+<script src="js/menu.js"></script>
+
+</html>
+
+
+<script>
+
+  function solicitacao() {
+    var cpfUsuarioVar = ipt_cpf.value
+    var emailUsuarioVar = ipt_email.value
+
+
+    if (cpfUsuarioVar == "" || emailUsuarioVar == "") {
+      alert("Existem campos vazios")
+      return false;
+    } else {
+
+      //console.log("FORM LOGIN: ", emailVar);
+      //console.log("FORM SENHA: ", senhaVar);
+
+      fetch("/usuarios/solicitarUsuario", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          cpfUsuarioServer: cpfUsuarioVar,
+          emailUsuarioServer: emailUsuarioVar
+        }),
+
+      }).then(function (resposta) {
+        console.log("ESTOU NO THEN DO entrar()!")
+        console.log(resposta);
+        if (resposta.ok) {
+
+
+          resposta.json().then(json => {
+            console.log(json);
+            console.log(JSON.stringify(json));
+
+
+            sessionStorage.NOME_USUARIO = json.nomeUser;
+            sessionStorage.EMAIL_USUARIO = json.emailUser;
+
+            setTimeout(function () {
+              window.location = "/redefinirsenha.html";
+            }, 1000);
+
+          });
+
+        } else {
+
+          console.log("Houve um erro ao tentar realizar o login!");
+
+          resposta.text().then(texto => {
+            console.error(texto);
+            alert('Email ou CPF incorretos')
+
+
+
+          });
+        }
+
+      }).catch(function (erro) {
+        console.log(erro);
+      }).finally(res => console.log(res))
+
+      return false;
+    }
+  }
+</script>

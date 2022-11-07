@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tech Inside | Início</title>
+
+  <script src="./js/funcoes.js"></script>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/geral.css">
+  <link rel="icon" type="image/x-icon" href="assets/trimmed-icon.png">
+</head>
+
+<body onload="limparSessaoUPDATE()">
+  <section id="inicio">
+    <header class="header">
+      <div class="header__container">
+
+        <a href="index.html" class="header__logo">
+          <img src="assets/logo-versao1.png" alt="Tech Inside">
+        </a>
+
+        <nav class="navbar">
+          <div class="futura-sidebar">
+            <a href="index.html#sobre" class="navbar__itens">Sobre</a>
+            <a href="index.html#portifolio" class="navbar__itens">Portifólio</a>
+            <a href="login.html" class=" agora navbar__itens">Entrar</a>
+          </div>
+
+          <a href="cadastroEmpresa.html" class="navbar__itens a-cadastro">Comece agora</a>
+
+          <div class="hidden-menu">
+            <img src="assets/img-menu.png" alt="Menu Lateral" class="img-open">
+
+            <ul id="menu">
+              <a href="" class="menu__logo">
+                <img src="assets/logo-versao1.png" alt="Tech Inside">
+              </a>
+
+              <li>
+                <img src="assets/home-icon.png" alt="início">
+                <a href="index.html" class="navbar__itens">Início</a>
+              </li>
+              <li>
+                <img src="assets/sobre-icon.png" alt="sobre">
+                <a href="index.html#sobre" class="navbar__itens">sobre</a>
+              </li>
+              <li>
+                <img src="assets/portifolio-icon.png" alt="portifolio">
+                <a href="index.html#portifolio" class="navbar__itens">Portifólio</a>
+              </li>
+              <li class="menu-li--agora">
+                <img src="assets/login-icon.png" alt="login">
+                <a href="login.html" class="navbar__itens agora">Entrar</a>
+              </li>
+              <li>
+                <img src="assets/cadastro-icon.png" alt="cadastro">
+                <a href="cadastroEmpresa.html" class="navbar__itens">Cadastre-se</a>
+              </li>
+            </ul>
+          </div>
+
+        </nav>
+      </div>
+    </header>
+
+    <div class="login-content">
+      <img src="assets/mobile.png" class="img-mobile" alt="">
+      <div class="container--geral login">
+        <div class="column1">
+          <h1 class="title">inicie sua sessão</h1>
+
+          <div class="div-ipts">
+            <input type="text" id="ipt_email" placeholder="E-mail">
+            <input type="password" id="ipt_senha" placeholder="Senha">
+          </div>
+
+          <button class="button--geral" id="enviar-bnt" onclick="isAdmin()">Entrar</button>
+          <a href="novaSenha.html" class="esqueceu-senha">Esqueceu a senha?</a>
+        </div>
+
+        <div class="column2">
+          <img src="assets/pc.png" alt="">
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <div class="footer-container">
+    <p class="copyright">
+      Copyright © 2022 Tech Inside | Todos os direitos
+      reservados.
+    </p>
+  </div>
+
+
+</body>
+
+<script src="js/menu.js"></script>
+</html>
+
+
+<script>
+  var contador = 0;
+
+  function isAdmin() {
+
+    var emailUsuarioVar = ipt_email.value;
+
+    fetch(`/usuarios/isAdmin/${emailUsuarioVar}`).then(function (resposta) {
+      if (resposta.ok) {
+        if (resposta.status == 204) {
+          var mensagem = document.createElement("span");
+          throw "Nenhum resultado encontrado!!";
+        }
+        resposta.json().then(function (resposta) {
+          for (let i = 0; i < resposta.length; i++) {
+            var publicacao = resposta[i]; // i é a posição 0
+            console.log(publicacao);
+
+            // Aqui eu crio as var (let é a mesma coisa que var) dos dados que quero apresentar no site:
+            // Temos que colocar publicação.Nome do campo do banco de dados:
+            let isAdminUser = publicacao.userAdmin
+
+            if (isAdminUser != null) {
+              alert('Você não tem permissão para entrar')
+              isAdminUser = `= ${isAdminUser}`
+            } else {
+              // alert('é admin')
+              isAdminUser = "is NULL"
+              entrar(isAdminUser)
+            }
+
+
+          }
+
+        })
+      } else {
+        throw ('Houve um erro na API!');
+      }
+    }).catch(function (resposta) {
+      console.error(resposta);
+    });
+  }
+
+
+  function entrar(isAdminUser) {
+    var isAdminUserVar = isAdminUser
+    var emailVar = ipt_email.value;
+    var senhaVar = ipt_senha.value;
+
+    contador += 1;
+
+    if (emailVar == "" || senhaVar == "") {
+      alert("Existem campos vazios")
+      return false;
+    } else {
+
+      // console.log("FORM LOGIN: ", emailVar);
+      // console.log("FORM SENHA: ", senhaVar);
+      // console.log("FORM Admin: ", isAdminUserVar);
+
+      fetch("/usuarios/autenticar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          emailServer: emailVar,
+          senhaServer: senhaVar,
+          isAdminUserServer: isAdminUserVar
+        })
+      }).then(function (resposta) {
+        console.log("ESTOU NO THEN DO entrar()!")
+
+        if (resposta.ok) {
+          console.log(resposta);
+
+          resposta.json().then(json => {
+            console.log(json);
+            console.log(JSON.stringify(json));
+
+            sessionStorage.NOME_USUARIO = json.nomeUser;
+            sessionStorage.ID_USUARIO = json.idUsuario;
+            sessionStorage.ID_EMPRESA = json.fkEmpresa;
+            sessionStorage.CARGO_USUARIO = json.cargoUser;
+
+            setTimeout(function () {
+              window.location = "/dashboard.html";
+            }, 1000);
+
+          });
+
+        } else {
+          console.log("Houve um erro ao tentar realizar o login!");
+          alert('Email ou senha inválidos')
+
+          resposta.text().then(texto => {
+            console.error(texto);
+
+
+          });
+        }
+
+      }).catch(function (erro) {
+        console.log(erro);
+      })
+
+      return false;
+    }
+  }
+
+
+</script>
+

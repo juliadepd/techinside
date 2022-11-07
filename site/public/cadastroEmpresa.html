@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tech Inside | Início</title>
+
+  <script src="./js/funcoes.js"></script>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/geral.css">
+  <link rel="icon" type="image/x-icon" href="assets/trimmed-icon.png">
+</head>
+
+<body>
+  <section id="inicio">
+    <header class="header">
+      <div class="header__container">
+
+        <a href="index.html" class="header__logo">
+          <img src="assets/logo-versao1.png" alt="Tech Inside">
+        </a>
+
+        <nav class="navbar">
+          <div class="futura-sidebar">
+            <a href="index.html#sobre" class="navbar__itens">Sobre</a>
+            <a href="index.html#portifolio" class="navbar__itens">Portifólio</a>
+            <a href="login.html" class="navbar__itens">Entrar</a>
+          </div>
+
+          <a href="cadastroEmpresa.html" class="navbar__itens a-cadastro a-cadastro--agora">Comece agora</a>
+
+        </nav>
+
+        <div class="hidden-menu">
+          <img src="assets/img-menu.png" alt="Menu Lateral" class="img-open">
+
+          <ul id="menu">
+            <a href="" class="menu__logo">
+              <img src="assets/logo-versao1.png" alt="Tech Inside">
+            </a>
+
+            <li>
+              <img src="assets/home-icon.png" alt="início">
+              <a href="index.html" class="navbar__itens">Início</a>
+            </li>
+            <li>
+              <img src="assets/sobre-icon.png" alt="sobre">
+              <a href="index.html#sobre" class="navbar__itens">sobre</a>
+            </li>
+            <li>
+              <img src="assets/portifolio-icon.png" alt="portifolio">
+              <a href="index.html#portifolio" class="navbar__itens">Portifólio</a>
+            </li>
+            <li>
+              <img src="assets/login-icon.png" alt="login">
+              <a href="login.html" class="navbar__itens">Entrar</a>
+            </li>
+            <li class="menu-li--agora">
+              <img src="assets/cadastro-icon.png" alt="cadastro">
+              <a href="cadastroEmpresa.html" class="navbar__itens agora">Cadastre-se</a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </header>
+
+    <div class="login-content">
+      <img src="assets/mobile.png" class="img-mobile" alt="">
+      <div class="container--geral">
+        <div class="column1">
+          <h1 class="title">Junte-se a nós</h1>
+
+          <div class="div-ipts">
+            <input type="text" id="ipt_nomeEmpresa" placeholder="Nome empresa">
+            <input type="text" id="ipt_cnpjEmpresa" placeholder="CNPJ">
+            <input type="text" id="ipt_telefoneEmpresa" placeholder="Telefone">
+            <input type="text" id="ipt_emailEmpresa" placeholder="E-mail">
+          </div>
+
+          <button class="button--geral" id="enviar-bnt" onclick="cadastrarEmpresa()">Cadastro</button>
+          <a href="novaSenha.html" class="esqueceu-senha">Esqueceu a senha?</a>
+        </div>
+
+        <div class="column2">
+          <img src="assets/pc.png" alt="">
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <div class="footer-container">
+    <p class="copyright">
+      Copyright © 2022 Tech Inside | Todos os direitos
+      reservados.
+    </p>
+  </div>
+
+
+</body>
+
+<script src="js/menu.js"></script>
+
+</html>
+<script>
+  function cadastrarEmpresa() {
+
+    var nomeEmpresaVar = ipt_nomeEmpresa.value;
+    var cnpjEmpresaVar = ipt_cnpjEmpresa.value;
+    var telefoneEmpresaVar = ipt_telefoneEmpresa.value;
+    var emailEmpresaVar = ipt_emailEmpresa.value;
+
+    if (
+      nomeEmpresaVar == "" || cnpjEmpresaVar == "" || telefoneEmpresaVar == "" || emailEmpresaVar == ""
+    ) {
+      cardErro.style.display = "flex"
+      mensagem_erro.innerHTML = "Existem dados em branco";
+      errogif.style.display = "block"
+
+      return false;
+
+    } else {
+      fetch("/usuarios/cadastrarEmpresa", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+
+          nomeEmpresaServer: nomeEmpresaVar,
+          cnpjEmpresaServer: cnpjEmpresaVar,
+          telefoneEmpresaServer: telefoneEmpresaVar,
+          emailEmpresaServer: emailEmpresaVar
+        })
+      }).then(function (resposta) {
+
+        console.log("resposta: ", resposta);
+
+        if (resposta.ok) {
+          setEmpresa()
+
+        } else {
+          throw ("Houve um erro ao tentar realizar o cadastro!");
+        }
+      }).catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+
+      });
+
+      return false;
+    }
+  }
+
+  function setEmpresa() {
+    fetch(`/usuarios/setEmpresa`).then(function (resposta) {
+      if (resposta.ok) {
+        if (resposta.status == 204) {
+          var mensagem = document.createElement("span");
+          throw "Nenhum resultado encontrado!!";
+        }
+        resposta.json().then(function (resposta) {
+
+          for (let i = 0; i < resposta.length; i++) {
+
+            var publicacao = resposta[i]; // i é a posição 0
+            console.log(publicacao);
+
+            let idEmpresa = publicacao.idEmpresa
+            sessionStorage.ID_EMPRESA = idEmpresa;
+            window.location = "./cadastroEmpresaPt2.html";
+          }
+        })
+      } else {
+        throw ('Houve um erro na API!');
+      }
+    }).catch(function (resposta) {
+      console.error(resposta);
+    });
+  }
+</script>

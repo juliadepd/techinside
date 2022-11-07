@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tech Inside | Início</title>
+
+  <script src="./js/funcoes.js"></script>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/geral.css">
+  <link rel="icon" type="image/x-icon" href="assets/trimmed-icon.png">
+</head>
+
+<body>
+  <section id="inicio">
+    <header class="header">
+      <div class="header__container">
+
+        <a href="index.html" class="header__logo">
+          <img src="assets/logo-versao1.png" alt="Tech Inside">
+        </a>
+
+        <nav class="navbar">
+          <div class="futura-sidebar">
+            <a href="index.html#sobre" class="navbar__itens">Sobre</a>
+            <a href="index.html#portifolio" class="navbar__itens">Portifólio</a>
+            <a href="login.html" class="navbar__itens">Entrar</a>
+          </div>
+
+          <a href="cadastroEmpresa.html" class="navbar__itens a-cadastro agora">Comece agora</a>
+
+          <div class="hidden-menu">
+            <img src="assets/img-menu.png" alt="Menu Lateral" class="img-open">
+
+            <ul id="menu">
+
+              <a href="" class="menu__logo">
+                <img src="assets/logo-versao1.png" alt="Tech Inside">
+              </a>
+
+              <li>
+                <img src="assets/home-icon.png" alt="início">
+                <a href="#index.html" class="navbar__itens">Início</a>
+              </li>
+              <li>
+                <img src="assets/sobre-icon.png" alt="sobre">
+                <a href="index.html#sobre" class="navbar__itens">sobre</a>
+              </li>
+              <li>
+                <img src="assets/portifolio-icon.png" alt="portifolio">
+                <a href="index.html#portifolio" class="navbar__itens">Portifólio</a>
+              </li>
+              <li>
+                <img src="assets/login-icon.png" alt="login">
+                <a href="login.html" class="navbar__itens">Entrar</a>
+              </li>
+              <li class="menu-li--agora">
+                <img src="assets/cadastro-icon.png" alt="cadastro">
+                <a href="cadastroEmpresa.html" class="navbar__itens agora">Cadastre-se</a>
+              </li>
+            </ul>
+          </div>
+
+        </nav>
+      </div>
+    </header>
+
+    <div class="container--geral">
+      <div class="column1">
+        <h1 class="title">Cadastro de Usuario:</h1>
+
+        <div class="div-ipts">
+          <input type="text" id="ipt_nomeUsuario" placeholder="Nome Usuário">
+          <input type="text" id="ipt_cargoUsuario"  placeholder="Cargo Usuário">
+          <input type="text" id="ipt_setorUsuario" placeholder="Setor do Usuário">
+          <input type="text" id="ipt_cpfUsuario" placeholder="CPF Usuario">
+          <input type="text" id="ipt_emailUsuario" placeholder="E-mail Usuario">
+          <input type="password" id="ipt_senhaUsuario" placeholder="Senha Usuario">
+        </div>
+
+        <button class="button--geral" id="enviar-bnt" onclick="cadastroUsuario()">Cadastro</button>
+        <a href="novaSenha.html" class="esqueceu-senha">Esqueceu a senha?</a>
+      </div>
+
+      <div class="column2">
+        <img src="assets/trimmed-icon.png" alt="" class="column2-logo" />
+        <h2 class="title title--column2">Já possui uma conta?</h2>
+        <a href="login.html" class="column2-button">Entrar</a>
+      </div>
+    </div>
+
+    <div class="footer-container">
+      <p class="copyright">
+        Copyright © 2022 Tech Inside | Todos os direitos
+        reservados.
+      </p>
+    </div>
+  </section>
+
+
+</body>
+
+<script src="js/menu.js"></script>
+
+</html>
+<script>
+    function cadastroUsuario() {
+        var nomeUsuarioVar = ipt_nomeUsuario.value;
+        var cargoUsuarioVar = ipt_cargoUsuario.value;
+        var setorUsuarioVar = ipt_setorUsuario.value;
+        var emailUsuarioVar = ipt_emailUsuario.value;
+        var senhaUsuarioVar = ipt_senhaUsuario.value;
+        var cpfUsuarioVar = ipt_cpfUsuario.value;
+
+        var fkEmpresaVar = sessionStorage.ID_EMPRESA;
+        
+        var fkUsuarioAdminVar = null
+            
+        
+        if (
+            nomeUsuarioVar == "" || cargoUsuarioVar == "" || setorUsuarioVar == "" || emailUsuarioVar == "" || senhaUsuarioVar == "" || cpfUsuarioVar == "" || fkUsuarioAdminVar == "" | fkEmpresaVar == ""
+            
+        ) {
+            cardErro.style.display = "flex"
+            mensagem_erro.innerHTML = "Existem dados em branco";
+            errogif.style.display = "block"
+        
+        }else {
+            
+        fetch("/usuarios/cadastroUsuario", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                
+                nomeUsuarioServer: nomeUsuarioVar,
+                cargoUsuarioServer: cargoUsuarioVar,
+                setorUsuarioServer: setorUsuarioVar,
+                emailUsuarioServer: emailUsuarioVar,
+                senhaUsuarioServer: senhaUsuarioVar,
+                cpfUsuarioServer: cpfUsuarioVar,
+                fkUsuarioAdminServer : fkUsuarioAdminVar,
+                fkEmpresaServer: fkEmpresaVar           
+            })
+        }).then(function (resposta) {
+            
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                setTimeout(function () {
+                        window.location = "/login.html";
+                    }, 1000);
+                    
+                
+            } else {
+                throw ("Houve um erro ao tentar realizar o cadastro!");
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+            
+        });
+    }
+  }
+    
+
+</script>

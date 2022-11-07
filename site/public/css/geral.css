@@ -1,0 +1,200 @@
+.container--geral {
+  display: flex;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px 50px;
+  position: absolute;
+  top: 65px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.container--geral.login {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.title {
+  width: 100%;
+  font-size: 30px;
+  letter-spacing: 0.5px;
+  text-align: center;
+  font-weight: 1000;
+  text-transform: uppercase;
+  font-family: "Segoe UI", sans-serif;
+  color: rgb(227, 41, 84);
+}
+
+.column1 {
+  width: 60%;
+  background-color: rgba(0, 0, 0, 0.26);
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+  padding: 60px 0;
+  border-radius: 7px 0 0 7px;
+}
+
+.column1 input,
+.column1 select {
+  padding: 13px;
+  border: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.397);
+  color: black;
+}
+
+select {
+  color: rgba(156, 148, 148, 0.63) !important;
+  padding-left: 9px !important;
+}
+
+
+.div-ipts {
+  display: grid;
+  width: 60%;
+  gap: 32px;
+  flex-direction: center;
+  padding: 30px 0;
+}
+
+.button--geral {
+  display: block;
+  color: white;
+  border-radius: 25px;
+  padding: 14px 13%;
+  margin-top: 20px;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  font-size: 15px;
+  background-color: rgb(227, 22, 56);
+  border: 0;
+  cursor: pointer;
+}
+
+.button--geral:hover {
+  box-shadow: inset 2px 2px 10px rgba(0, 0, 0, 0.226);
+}
+
+.esqueceu-senha {
+  color: white;
+  font-size: 15px;
+  text-decoration: underline;
+  font-family: "Segoe UI", sans-serif;
+  margin-top: 10px;
+}
+
+.column2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+  margin: 80px auto;
+}
+
+.column2 img {
+  margin-left: 50px;
+  max-width: 500px;
+}
+
+.img-mobile {
+  max-width: 300px;
+  position: absolute;
+  top: -17vh;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+}
+
+.login-content {
+  background-color: rgb(255, 255, 255);
+  margin-top: 45vh;
+  height: 55vh;
+  padding-bottom: 500px;
+}
+
+@media (max-width: 1024px) {
+
+  .login-content {
+    position: relative;
+    margin-top: 25vh;
+    height: auto;
+    padding-bottom: 0;
+  }
+
+  .container--geral {
+    position: relative;
+  }
+
+  .img-mobile {
+    display: block;
+  }
+
+  .column2 {
+    display: none;
+  }
+
+  .column1 {
+    margin: 0 auto;
+    max-width: 636px;
+    width: 100%;
+    border-radius: 7px;
+  }
+}
+
+@media (max-width: 480px) {
+  .div-ipts {
+    padding: 20px 0;
+    width: 80%;
+  }
+
+  .title {
+    font-size: 26px;
+    padding: 0 0 20px 0;
+  }
+
+  #inicio {
+    align-items: stretch !important;
+    justify-content: stretch;
+  }
+  
+  .column1 {
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgba(0, 0, 0, 0.529) 1px 2px 10px -4px;
+    margin: 80px auto;
+    max-width: 636px;
+    width: 100%;
+    border-radius: 7px;
+  
+  }
+  
+  .esqueceu-senha {
+    display: none;
+  }
+}
+
+#inicio {
+  align-items: stretch !important;
+  justify-content: stretch;
+}
+
+.column1 {
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0.529) 1px 2px 10px -4px;
+  margin: 80px auto;
+  max-width: 636px;
+  width: 100%;
+  border-radius: 7px;
+}
+
+.title {
+  font-size: 26px;
+  padding: 0 0 20px 0;
+}
+
+.esqueceu-senha {
+  display: none;
+}

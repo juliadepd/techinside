@@ -1,0 +1,88 @@
+body {
+  min-height: 100vh;
+  font-family: sans-serif;
+  background-image: linear-gradient(to bottom, rgba(15, 1, 37, 0) 5%, rgba(8, 47, 155, 0.796), rgba(59, 146, 245, 0.829)), url("../assets/inicio__bg.png");
+  background-size: 1920px 1080px;
+  width: 100%;
+  overflow: hidden;
+  overflow-y: hidden;
+}
+
+#login {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  text-align: center;
+  max-height: 200px;
+  padding-top: 45px;
+}
+
+.container {
+  display: flex;
+  justify-content: initial;
+  align-items: center;
+  position: relative;
+  flex-direction: row;
+}
+
+h2 {
+  margin-bottom : 40px;
+}
+
+.cardlogin button {
+  margin: 40px auto 0;
+  border: 0;
+  width: 77%;
+  align-self: center;
+}
+
+
+.cardlogin input {
+  width: 30vw;
+  height: 6vh;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.118);
+  font-size: 14px;
+  border: none;
+  text-align: center;
+  color: white;
+}
+
+::-webkit-input-placeholder {
+  color: white;
+}
+
+.card-header {
+  padding-bottom: 30px;
+  position: relative;
+  left: 25px;
+  color: #fff;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+}
+
+.card-header h2 {
+  margin-bottom: 0;
+  margin-left: 30px;
+/* padding-left: 20%; */
+}
+
+  input {
+    margin-top:  20px;
+    color: white;
+  }
+
+  .button {
+    margin: 0 auto;
+    margin-top: 30px;
+  }
+
+  .title {
+    max-width: 350px;  
+    padding-left: 60px;
+  }
+
+ 
+
+  

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/funcoes.js"></script>
+  <link rel="icon" type="image/x-icon" href="assets/trimmed-icon.png" />
+</head>
+
+<body onload="validarSessao(), listarComp()">
+  <script>
+    window.fwSettings = {
+      'widget_id': 150000001098
+    };
+    !function () { if ("function" != typeof window.FreshworksWidget) { var n = function () { n.q.push(arguments) }; n.q = [], window.FreshworksWidget = n } }() 
+  </script>
+  <script type='text/javascript' class="btn-desk" src='https://widget.freshworks.com/widgets/150000001098.js' async
+    defer></script>
+  <div class="body">
+
+    <div class="div_cover"></div>
+    <div class="logo-mobile">
+      <img src="assets/logo-versao1.png" alt="">
+    </div>
+
+    <div class="menu_lateral">
+      <div class="container_logo">
+        <img src="assets/trimmed-icon.png" />
+      </div>
+
+      <ul class="nav-lateral">
+        <a href="">
+          <li class="li-inicial agora">
+            <img src="assets/icon-dash.png">
+            <span>Página inicial</span>
+          </li>
+        </a>
+
+        <a href="painelFuncionarios.html">
+          <li class="li-col">
+            <img src="assets/icon-cola.png">
+            <span>Colaboradores</span>
+          </li>
+        </a>
+
+        <a href="conta.html">
+          <li class="li-conta">
+            <img src="assets/icon-conta.png">
+            <span>Minha conta</span>
+          </li>
+        </a>
+
+        <li class="li-sair" onclick="limparSessao()">
+          <img src="assets/icon-logout.png">
+          <span>Sair</span>
+        </li>
+      </ul>
+
+      <img src="assets/icon-logout.png" class="icon-logout" alt="sair">
+      <button id="btn_sair" onclick="limparSessao()">Sair</button>
+
+    </div>
+    <div class="content">
+      <div class="menu_top">
+        <div>
+          <h1>Dashboard</h1>
+        </div>
+
+        <div class="perfil">
+          <img src="assets/profile_picture.jpg" />
+          <div class="container_nome_cargo">
+            <h3>
+              <span id="nome_usuario">Nome</span>
+              <span id="id_usuario"></span>
+            </h3>
+            <p id="cargo_usuario">Cargo</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="graficos">
+        <div class="container_filtros">
+          <h2>Métricas em tempo real</h2>
+          <div class="div_selects">
+            <select id="select_computador">
+              <option value="0">Máquina</option>
+            </select>
+
+            <select id="select_grafico">
+              <option value="0">Componente</option>
+            </select>
+          </div>
+        </div>
+        <div class="container_porcentagens">
+          <div id="div_porcentagem_cpu">
+            <h3>Uso CPU (média do dia)</h3>
+            <p id="txt_uso_cpu">N/A</p>
+          </div>
+          <hr>
+          <div id="div_temperatura_cpu">
+            <h3>Temperatura CPU (média do dia)</h3>
+            <p id="txt_temperatura_cpu">N/A</p>
+          </div>
+          <hr>
+          <div id="div_uso_ram">
+            <h3>Uso RAM (média do dia)</h3>
+            <p id="txt_uso_ram">N/A</p>
+          </div>
+        </div>
+        <div class="container_canvas">
+          <div class="div_canvas" id="div_canvas">
+            <span>Selecione um funcionário e um componente para ter acesso aos gráficos.</span>
+          </div>
+
+          <div class="metricas-direita">
+            <div class="metrica">
+              <h3>Tempo produtivo</h3>
+              <p>N/A</p>
+            </div>
+            <div class="metrica">
+              <h3>Média uso CPU</h3>
+              <p>N/A</p>
+            </div>
+            <div class="metrica">
+              <h3>
+                Média uso RAM
+              </h3>
+              <p>N/A</p>
+            </div>
+            <div class="metrica">
+              <h3>
+                Média temperatura CPU
+              </h3>
+              <p>N/A</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+</body>
+
+</html>
+
+<!-- <script>
+  var grafico = document.getElementById('grafico');
+  var divCanvas = document.querySelector('.div_canvas')
+  var divCover = document.querySelector('.div_cover');
+  var metricas = document.querySelector('.container_filtros');
+  var body = document.querySelector("html");
+
+  grafico.addEventListener("click", function (event) {
+    grafico.classList.toggle("canvas--foco");
+    divCanvas.classList.toggle("divCanvas--foco");
+    divCover.classList.toggle("divCover--foco");
+    body.classList.toggle("rotate");
+    console.log('alvo', event.target)
+  })
+
+  document.addEventListener("click", function (event) {
+    if (!grafico.contains(event.target)) {
+      grafico.classList.remove("canvas--foco");
+      divCanvas.classList.remove("divCanvas--foco");
+      divCover.classList.remove("divCover--foco");
+      body.classList.remove("rotate")
+    }
+  })
+</script> -->
+
+<script>
+
+  var idEmpresa = sessionStorage.getItem('ID_EMPRESA')
+  var idUsuario = sessionStorage.getItem('ID_USUARIO')
+  var nomeEmpresa = sessionStorage.getItem('NOME_EMPRESA')
+  var nomeUsuario = sessionStorage.getItem('NOME_USUARIO')
+  var cargoUsuario = sessionStorage.getItem('CARGO_USUARIO')
+
+  if (nomeEmpresa != null) {
+    nome_usuario.innerHTML = nomeEmpresa.toLocaleUpperCase(); // esta formatado para a primeira letra ser Maiuscula
+    id_usuario.innerHTML = `(ID: ${idEmpresa})`;
+    cargo_usuario.innerHTML = "EMPRESA";
+  } else if (nomeUsuario != null) {
+    nome_usuario.innerHTML = nomeUsuario[0].toLocaleUpperCase() + nomeUsuario.substr(1);
+    id_usuario.style.display = "none";
+    cargo_usuario.innerHTML = cargoUsuario[0].toLocaleUpperCase() + cargoUsuario.substr(1);
+  }
+
+  function obterDadosGrafico(idComputador, fkComponente) {
+    fetch(`/medidas/ultimas/${idComputador}/${fkComponente}`, { cache: 'no-store' }).then(function (response) {
+      if (response.ok) {
+        response.json().then(function (resposta) {
+          console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+          plotarGrafico(resposta, idComputador);
+        });
+      } else {
+        console.error('Nenhum dado encontrado ou erro na API');
+      }
+    })
+      .catch(function (error) {
+        console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+      });
+  }
+
+  function plotarGrafico(resposta, idComputador) {
+    let dict_componentes = {
+      'Uso RAM': 'Uso de RAM (em %)',
+      'Uso CPU': 'Uso de CPU (em %)',
+      'Temperatura CPU': 'Temperatura da CPU (em °C)'
+    }
+
+    var componenteAtual = dict_componentes[select_grafico.options[select_grafico.selectedIndex].text]
+
+    if (Chart.getChart("grafico") != undefined) {
+      Chart.getChart("grafico").destroy();
+    }
+
+    console.log('iniciando plotagem do gráfico...');
+
+    // Criando estrutura para plotar gráfico - labels
+    let labels = [];
+
+    // Criando estrutura para plotar gráfico - dados
+
+    let dados = {
+      labels: labels,
+      datasets: [{
+        label: `${componenteAtual}`,
+        data: [],
+        fill: true,
+        borderColor: 'rgb(75, 192, 192)',
+        tension: 0.1
+      }]
+    };
+
+    console.log('----------------------------------------------')
+    console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":')
+    console.log(resposta)
+
+    // Inserindo valores recebidos em estrutura para plotar o gráfico
+    for (i = 0; i < resposta.length; i++) {
+      var registro = resposta[i];
+      horaCaptura = registro.dataCaptura.split('T')[1]
+      horaCaptura = horaCaptura.split('.')[0]
+      labels.push(horaCaptura);
+      dados.datasets[0].data.push(registro.captura);
+    }
+
+    console.log('----------------------------------------------')
+    console.log('O gráfico será plotado com os respectivos valores:')
+    console.log('Labels:')
+    console.log(labels)
+    console.log('Dados:')
+    console.log(dados.datasets)
+    console.log('----------------------------------------------')
+
+    // Criando estrutura para plotar gráfico - config
+    const config = {
+      type: 'line',
+      data: dados,
+    };
+
+    // Adicionando gráfico criado em div na tela
+    let myChart = new Chart(
+      document.getElementById('grafico'),
+      config
+    );
+
+    setTimeout(() => atualizarGrafico(idComputador, select_grafico.value, dados, myChart), 2000);
+  }
+
+
+  function atualizarGrafico(idComputador, fkComponente, dados, myChart) {
+
+    fetch(`/medidas/tempo-real/${idComputador}/${fkComponente}`, { cache: 'no-store' }).then(function (response) {
+      if (response.ok) {
+        response.json().then(function (novoRegistro) {
+          console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
+          console.log(`Dados atuais do gráfico:`);
+          console.log(dados);
+          // tirando e colocando valores no gráfico
+          dados.labels.shift(); // apagar o primeiro
+          console.log("NOVO REGISTRO:")
+          console.log(novoRegistro[0].dataCaptura)
+          horaCaptura = novoRegistro[0].dataCaptura.split('T')[1]
+          horaCaptura = horaCaptura.split('.')[0]
+          dados.labels.push(horaCaptura); // incluir um novo momento
+          dados.datasets[0].data.shift();  // apagar o primeiro de umidade
+          dados.datasets[0].data.push(novoRegistro[0].captura); // incluir uma nova medida de umidade
+          myChart.update();
+          // Altere aqui o valor em ms se quiser que o gráfico atualize mais rápido ou mais devagar
+          proximaAtualizacao = setTimeout(() => atualizarGrafico(idComputador, fkComponente, dados, myChart), 2000);
+        });
+      } else {
+        console.error('Nenhum dado encontrado ou erro na API');
+        // Altere aqui o valor em ms se quiser que o gráfico atualize mais rápido ou mais devagar
+        proximaAtualizacao = setTimeout(() => atualizarGrafico(idComputador, dados, myChart), 2000);
+      }
+    })
+      .catch(function (error) {
+        console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+      });
+  }
+
+  function obterMetricas(idComputador){
+    fetch(`/medidas/ultimas-metricas/${idComputador}`, { cache: 'no-store' }).then(function (response) {
+      if (response.ok) {
+        response.json().then(function (resposta) {
+          console.log('OBTER MÉTRICAS:')
+          console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+          for (let i = 0; i < resposta.length; i++){
+            if (resposta[i].tipoComponente == 'usoCpu'){
+              txt_uso_cpu.innerHTML = `${(resposta[i].mediaCaptura).toFixed(2)}%`;
+            } else if (resposta[i].tipoComponente == 'usoRam'){
+              txt_uso_ram.innerHTML = `${(resposta[i].mediaCaptura).toFixed(2)}%`;
+            } else if (resposta[i].tipoComponente == 'tempCpu'){
+              txt_temperatura_cpu.innerHTML = `${(resposta[i].mediaCaptura).toFixed(2)}°C`;
+            }
+          }
+        });
+      } else {
+        console.error('Nenhum dado encontrado ou erro na API');
+      }
+    })
+      .catch(function (error) {
+        console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+      });
+  }
+
+  // window.onload = 
+  function listarComp() {
+    var idEmpresa = sessionStorage.getItem("ID_EMPRESA");
+
+    fetch(`/usuarios/listarComp/${idEmpresa}`)
+      .then(function (resposta) {
+        if (resposta.ok) {
+          if (resposta.status == 204) {
+            var mensagem = document.createElement("span");
+            throw "Nenhum resultado encontrado!!";
+          }
+          resposta.json().then(function (resposta) {
+            for (let i = 0; i < resposta.length; i++) {
+              var publicacao = resposta[i];
+              console.log(publicacao);
+
+              let idComputador = publicacao.idComputador;
+              let marcaComp = publicacao.marca;
+
+              select_computador.innerHTML += ` 
+                          <option value="${idComputador}">${marcaComp}</option>
+                          `;
+            }
+          });
+        } else {
+          throw "Houve um erro na API!";
+        }
+      })
+      .catch(function (resposta) {
+        console.error(resposta);
+      });
+  };
+
+  select_computador.addEventListener('change', function () {
+
+    select_grafico.innerHTML = `<option value="0">Componente</option>`;
+    var idComputador = select_computador.value;
+
+    fetch(`/usuarios/componentes/${idComputador}`)
+      .then(function (resposta) {
+        if (resposta.ok) {
+          if (resposta.status == 204) {
+            var mensagem = document.createElement("span");
+            throw "Nenhum resultado encontrado!!";
+          }
+          resposta.json().then(function (resposta) {
+
+            for (let i = 0; i < resposta.length; i++) {
+              var publicacao = resposta[i];
+              console.log(publicacao);
+
+              let idComponente = publicacao.idComponente;
+              let componente = publicacao.tipoComponente;
+
+              if (componente == 'usoCpu'){
+                componente = 'Uso CPU';
+              } else if (componente == 'usoRam'){
+                componente = 'Uso RAM';
+              } else if (componente == 'tempCpu'){
+                componente = 'Temperatura CPU';
+              }
+
+              select_grafico.innerHTML += ` 
+                          <option value="${idComponente}">${componente}</option>
+                          `;
+            }
+          });
+        } else {
+          throw "Houve um erro na API!";
+        }
+      })
+      .catch(function (resposta) {
+        console.error(resposta);
+      });
+
+      obterMetricas(idComputador);
+  })
+
+
+  select_grafico.addEventListener('change', function () {
+    var idComputador = select_computador.value;
+    var fkComponente = select_grafico.value;
+
+    div_canvas.innerHTML = `<canvas id="grafico"></canvas>`
+    obterDadosGrafico(idComputador, fkComponente);
+  })
+</script>

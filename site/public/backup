@@ -1,0 +1,73 @@
+
+<body onload="limparSessaoUPDATE()">
+    <header class="header">
+        <div class="header__container">
+
+            <a href="index.html" class="header__logo">
+                <img src="assets/logo-versao1.png" alt="Tech Inside">
+            </a>
+
+            <nav class="navbar">
+                <div class="futura-sidebar">
+                    <a href="index.html#sobre" class="navbar__itens">Sobre</a>
+                    <a href="index.html#portifolio" class="navbar__itens">Portifólio</a>
+                    <a href="login.html" class="navbar__itens">Entrar</a>
+                </div>
+
+                <a href="cadastroEmpresa.html" class="navbar__itens a-cadastro">Comece agora</a>
+
+                <div class="hidden-menu" onclick="show()">
+                    <img src="assets/img-menu.png" alt="Menu Lateral">
+
+                    <div id="menu">
+                        <a href="#index.html" class="navbar__itens agora">Início</a>
+                        <a href="index.html#sobre" class="navbar__itens">sobre</a>
+                        <a href="index.html#portifolio" class="navbar__itens">Portifólio</a>
+                        <a href="login.html" class="navbar__itens">Entrar</a>
+                        <a href="cadastroEmpresa.html" class="navbar__itens">Cadastre-se</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+
+    <div class="banner">
+        <div class="container--row">
+            <div id="login">
+
+                <h2 class="title">Confirme seus dados</h2>
+
+                <div class="card-content">
+
+                    <div class="card-content-area">
+                        <input type="text" id="ipt_email" class="ipt" placeholder="Digite seu email">
+                    </div>
+
+                    <div class="card-content-area">
+                        <input type="text" id="ipt_cpf" class="ipt" placeholder="Digite seu CPF">
+                    </div>
+
+
+                    <div class="card-footer">
+                        <button class="button" id="enviar" class="submit" onclick="solicitacao()">
+                            Enviar dados </button>
+                    </div>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="container-decoration">
+                <img src="assets/logo-versao2.png" alt="" class="logo-exibir" />
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer-container">
+        <p class="copyright">
+            Copyright © 2022 Tech Inside | Todos os direitos
+            reservados.
+        </p>
+    </div>  
+</div>
