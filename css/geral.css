@@ -57,6 +57,34 @@ select {
   gap: 32px;
   flex-direction: center;
   padding: 30px 0;
+  position: relative;
+}
+
+.validacao-inativa {
+  position: absolute;
+  height: 30px;
+  left: -90px;
+  top: 140px;
+  color: red;
+  opacity: 0;
+  transition: 0.1s;
+  font-size: 13px;
+}
+
+.validacao-ativa {
+  position: absolute;
+  height: 30px;
+  left: -1px;
+  top: 166px;
+  color: red;
+  opacity: 1;
+  font-size: 13.5px;
+}
+
+.red {
+  border-color: red !important;
+  color: red !important;
+  transition: 0.3s;
 }
 
 .button--geral {
@@ -197,10 +225,4 @@ select {
 
 .esqueceu-senha {
   display: none;
-}
-
-a {
-  color: white;
-  text-decoration: none;
-
 }

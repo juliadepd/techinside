@@ -1,379 +1,512 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tech Inside | Painel de funcionários</title>
+    <link rel="stylesheet" href="css/painelFuncionarios.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/funcoes.js"></script>
+    <link rel="icon" type="image/x-icon" href="assets/trimmed-icon.png" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tech Inside | Painel de funcionários</title>
-  <link rel="stylesheet" href="css/painelFuncionarios.css" />
-  <link rel="stylesheet" href="css/dashboard.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="js/funcoes.js"></script>
-  <link rel="icon" type="image/x-icon" href="assets/trimmed-icon.png">
-
-</head>
-
-<body onload="listarUsuarios()">
-  <script>
-    window.fwSettings={
-    'widget_id':150000001098
-    };
-    !function(){if("function"!=typeof window.FreshworksWidget){var n=function(){n.q.push(arguments)};n.q=[],window.FreshworksWidget=n}}() 
-  </script>
-  <script type='text/javascript' class="btn-desk" src='https://widget.freshworks.com/widgets/150000001098.js' async defer></script>
-  <div class="body">
-
-    <div class="div_cover"></div>
-    <div class="logo-mobile">
-      <img src="assets/logo-versao1.png" alt="">
-    </div>
-
-    <div class="menu_lateral">
-      <div class="container_logo">
-        <img src="assets/trimmed-icon.png" />
+  <body onload="listarUsuarios(), validarSessao()">
+    <div class="cover"></div>
+    <script>
+      window.fwSettings = {
+        widget_id: 150000001098,
+      };
+      !(function () {
+        if ("function" != typeof window.FreshworksWidget) {
+          var n = function () {
+            n.q.push(arguments);
+          };
+          (n.q = []), (window.FreshworksWidget = n);
+        }
+      })();
+    </script>
+    <script
+      type="text/javascript"
+      class="btn-desk"
+      src="https://widget.freshworks.com/widgets/150000001098.js"
+      async
+      defer
+    ></script>
+    <div class="body">
+      <div class="div_cover"></div>
+      <div class="logo-mobile">
+        <img src="assets/logo-versao1.png" alt="" />
       </div>
-
-      <ul class="nav-lateral">
-        <a href="dashboard.html">
-          <li class="li-inicial">
-            <img src="assets/icon-dash.png">
-            <span>Página inicial</span>
-          </li>
-        </a>
-
-        <a href="painelFuncionarios.html">
-          <li class="li-col agora">
-            <img src="assets/icon-cola.png">
-            <span>Colaboradores</span>
-          </li>
-        </a>
-
-        <a href="conta.html">
-          <li class="li-conta">
-            <img src="assets/icon-conta.png">
-            <span>Minha conta</span>
-          </li>
-        </a>
-
-        <a href="index.html">
-          <li class="li-sair">
-            <img src="assets/icon-logout.png">
-            <span>Sair</span>
-          </li>
-        </a>
-      </ul>
-
-      <img src="assets/icon-logout.png" class="icon-logout" alt="sair">
-      <button id="btn_sair" onclick="limparSessao()">Sair</button>
-
-    </div>
-
-    <div class="content">
-      <div class="menu_top">
-        <div>
-          <h2>Colaboradores <span>/ Máquinas</span></h2>
-          <p>Configurações
+      <div class="menu_lateral">
+        <div class="container_logo">
+          <img src="assets/trimmed-icon.png" />
         </div>
-
-        <div class="perfil">
-          <img src="assets/profile_picture.jpg" />
-          <div class="container_nome_cargo">
-            <h3>
-              <span id="nome_usuario">Nome</span>
-              <span id="id_usuario"></span>
-            </h3>
-            <p id="cargo_usuario">Cargo</p>
+        <ul class="nav-lateral">
+          <a href="dashboard.html">
+            <li class="li-inicial">
+              <img src="assets/icon-dash.png" />
+              <span>Página inicial</span>
+            </li>
+          </a>
+          <a href="painelFuncionarios.html">
+            <li class="li-col agora">
+              <img src="assets/icon-cola.png" />
+              <span>Colaboradores</span>
+            </li>
+          </a>
+          <a href="index.html">
+            <li class="li-sair">
+              <img src="assets/icon-logout.png" />
+              <span>Sair</span>
+            </li>
+          </a>
+        </ul>
+        <img src="assets/icon-logout.png" class="icon-logout" alt="sair" />
+        <button id="btn_sair" onclick="limparSessao()">Sair</button>
+      </div>
+      <div class="content">
+        <div class="menu_top">
+          <div>
+            <h2>Colaboradores <span>/ Máquinas</span></h2>
+            <p>Configurações</p>
+          </div>
+          <div class="perfil">
+            <img src="assets/profile_picture.jpg" />
+            <div class="container_nome_cargo">
+              <h3>
+                <span id="nome_usuario">Nome</span>
+                <span id="id_usuario"></span>
+              </h3>
+              <p id="cargo_usuario">Cargo</p>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div class="uniao">
-        <div class="container_filtros">
-          <h2>Cadastrados:</h2>
-        </div>
-      </div>
-      <button id="cadastrar_usuario" onclick="show()">
-        Cadastrar funcionário
-      </button>                     
-      <div class="hidden_form" id="hidden_form" style="display: none;">
-        <p onclick="hideDiv()">X</p>
-        <h2 id="h2_form"></h2>
-        <div class="ipt_form">
-          Nome: <input type="text" id="ipt_nomeUsuario" placeholder="Nome">
-          Cargo: <input type="text" id="ipt_cargoUsuario" placeholder="Cargo">
-          Setor: <input type="text" id="ipt_setorUsuario" placeholder="Setor">
-          CPF: <input type="text" id="ipt_cpfUsuario" placeholder="CPF">
-          E-mail: <input type="text" id="ipt_emailUsuario" placeholder="E-mail">
-          Senha: <input type="password" id="ipt_senhaUsuario" placeholder="Senha">
-          <div class="div_checkbox">
-            <input type="checkbox" id="chkAdmin">
-            <label for="chkAdmin">Admin</label>
+        <div class="hidden_form" id="hidden_form" style="display: none">
+          <p class="xizinho">x</p>
+          <h2 id="h2_form"></h2>
+          <div class="ipt_form">
+            Nome:
+            <input type="text" id="ipt_nomeUsuario" placeholder="Nome" /> Cargo:
+            <input type="text" id="ipt_cargoUsuario" placeholder="Cargo" />
+            Setor:
+            <input type="text" id="ipt_setorUsuario" placeholder="Setor" /> CPF:
+            <input type="text" id="ipt_cpfUsuario" placeholder="CPF" /> E-mail:
+            <input type="text" id="ipt_emailUsuario" placeholder="E-mail" />
+            Senha:
+            <input type="password" id="ipt_senhaUsuario" placeholder="Senha" />
+            <div class="div_checkbox">
+              <input type="checkbox" id="chkAdmin" />
+              <label for="chkAdmin">Admin</label>
+            </div>
           </div>
-        </div>
-        <div id="cardErro">
-          <span id="mensagem_erro"></span>
-        </div>
-        <div id="container_btns">
-
-        </div>
-      </div>
-
-
-
-      <div id="hidden_confirmacao" class="hidden_confirmacao" style="display: none;"></div>
-
-      <div id="hidden_maquina" class="hidden_maquina" style="display: none;">
-        <div class="container_maquina">
-        
-        <p onclick="hideMaquina()">X</p>
-        <h2>Cadastrar máquina</h2>
-        <div class="form_maquina">
-
-          <div class="left">
-            Marca: <input type="text" id="ipt_marca_maquina">
-            Modelo: <input type="text" id="ipt_modelo_maquina">
-            Serial Number: <input type="text" id="ipt_serial_number_maquina">
+          <div id="cardErro">
+            <span id="mensagem_erro"></span>
           </div>
+          <div id="container_btns"></div>
+        </div>
+        <div
+          id="hidden_confirmacao"
+          class="hidden_confirmacao"
+          style="display: none"
+        ></div>
 
-          <div class="right">
-
-            <label for="chk_uso_cpu"><input type="checkbox" id="chk_uso_cpu"> Monitorar uso da CPU</label>
-            <div class="containerChecked">
-              <!-- <input type="text" placeholder="Total da CPU" class="input_right_maquina" id="input_right_totalCpu"> -->
-              <input type="text" class="inputMaquinaChecked" id="triggerMaxUsoCpu" style="display: none;" placeholder="Trigger max">
-              <input type="text" class="inputMaquinaChecked" id="triggerMinUsoCpu" style="display: none;" placeholder="Trigger min">
-
+        <!-- Cadastro Computador -->
+        <div id="hiddenComputador" class="hiddenComputador" style="display: none;">
+          <div class="container_maquina" id="container_maquina">
+          
+          <p onclick="hideComputador()">X</p>
+          <h2>Cadastrar máquina</h2>
+          <div class="form_maquina">
+      
+            <div class="left">
+              Marca: <input type="text" id="ipt_marca_maquina">
+              Modelo: <input type="text" id="ipt_modelo_maquina">
+              Serial Number: <input type="text" id="ipt_serial_number_maquina">
             </div>
 
-            <label for="chk_uso_ram"><input type="checkbox" id="chk_uso_ram"> Monitorar uso da RAM</label>
-            <div class="containerCheckedRAM">
-              <input type="text" class="inputMaquinaChecked" id="input_right_totalRam" style="display: none;" placeholder="Total da RAM">
-              <input type="text" class="inputMaquinaChecked" id="triggerMaxRam" style="display: none;" placeholder="Trigger max">
-              <input type="text" class="inputMaquinaChecked" id="triggerMinRam" style="display: none;" placeholder="Trigger min">
-            </div>
+            
+          </div>
+          <div class="botao_left" id="botao_left">
+            <button id="btn_cadastrar_maquina">Próximo</button>
+          </div>
+      
+        </div>
+      
+        </div>
 
-            <label for="chk_temperatura_cpu"><input type="checkbox" id="chk_temperatura_cpu"> Temperatura da CPU</label>
-            <div class="containerChecked">
-              <input type="text" class="inputMaquinaChecked" id="triggerMaxTempCpu" style="display: none" placeholder="Trigger max">
-              <input type="text" class="inputMaquinaChecked" id="triggerMinTempCpu" style="display: none" placeholder="Trigger min">
+        <!-- Cadastro Componente -->
+        <div id="hiddenComponente" class="hiddenComponente" style="display: none;">
+          <div class="containerComponente" id="containerComponente">
+
+          <p onclick="hideComputador()">X</p>
+          <h2>Cadastro Componente</h2>
+          <div class="form_maquina_componente">
+            
+            <!-- Lado esquerdo do cadastro de componente(popUp) -->
+            <div class="componente_left">
+
+              <!-- DIV do uso de CPU -->
+              <div class="divComponentes">
+
+                <div class="tituloComponentes">
+                  <h4>Deseja monitorar o uso de CPU?</h4>
+                </div> 
+                
+                <div class="chkComponentes">
+                  <label for="chk_uso_cpu"><input type="checkbox" id="chk_uso_cpu"> Sim</label>
+                  <label for="chk_uso_cpu"><input type="checkbox" id="chk_uso_cpu"> Não</label>
+                </div>
+
+                    <div class="containerChecked">
+                      <input type="text" class="inputMaquinaChecked" id="triggerMaxUsoCpu" placeholder="Trigger max">
+                      <input type="text" class="inputMaquinaChecked" id="triggerMinUsoCpu" placeholder="Trigger min">
+                    </div>
+                    
+              </div>
+              
+              <!-- DIV da temperatura da CPU -->
+              <div class="divComponentes">
+
+                <div class="tituloComponentes">
+                  <h4>Deseja monitorar temperatura da CPU?</h4>
+                </div>
+                
+                <div class="chkComponentes">
+                  <label for="chk_temperatura_cpu"><input type="checkbox" id="chk_temperatura_cpu"> Sim</label>
+                  <label for="chk_temperatura_cpu"><input type="checkbox" id="chk_temperatura_cpu"> Não</label>
+                </div>
+                
+                      <div class="containerChecked">
+                        <input type="text" class="inputMaquinaChecked" id="triggerMaxTempCpu" placeholder="Trigger max">
+                        <input type="text" class="inputMaquinaChecked" id="triggerMinTempCpu" placeholder="Trigger min">
+                      </div>
+              </div>
+
+              <!-- DIV da RAM -->
+            <div class="divComponentes">
+
+              <div class="tituloComponentes">
+                <h4>Deseja monitorar a RAM?</h4>
+              </div>
+
+              <div class="chkComponentes">
+                <label for="chk_uso_ram"><input type="checkbox" id="chk_uso_ram"> Sim</label>
+                <label for="chk_uso_ram"><input type="checkbox" id="chk_uso_ram"> Não</label>
+              </div>
+
+                    <div class="containerCheckedRAM">
+                      <input type="text" class="inputMaquinaChecked" id="inputTotalRam" placeholder="Total da RAM">
+                      <input type="text" class="inputMaquinaChecked" id="triggerMaxRam" placeholder="Trigger max">
+                      <input type="text" class="inputMaquinaChecked" id="triggerMinRam" placeholder="Trigger min">
+                    </div>
+            </div>
+                    
+                    
+          </div>
+
+          <!-- Texto da checkbox selecionada cadastro componente lado direito(popUp) -->
+            <div class="componente_right">
+              <div class="container_componente_right">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum error facilis consectetur reprehenderit dicta animi fugit adipisci repellat
+                 quaerat distinctio? Doloremque quo saepe enim magni officia facilis quis libero excepturi.
+              </div>
             </div>
 
           </div>
+
+          <!-- Botao do cadastro de componentes(popUp) -->
+          <div class="botao_componente">
+            <button>Cadastrar</button>
+          </div>
+
         </div>
-
-        <button id="btn_cadastrar_maquina" onclick="cadastrarMaquina()">Cadastrar</button>
-
       </div>
 
-      </div>
 
-      <div id="table_wrapper">
-        <table style="width: 100%" id="table_func">
-          <colgroup>
-            <col style="width: 30%;" />
-            <col style="width: 30%;" />
-            <col style="width: 20%;" />
-            <col style="width: 10%;" />
-            <col style="width: 10%;" />
-          </colgroup>
-          <tbody id="exibirUsuarios">
-            <tr class="header">
-              <th>Nome</th>
-              <th>Área</th>
-              <th>Cargo</th>
-              <th>Admin</th>
-              <th style="text-align: center;">Gerenciar</th>
-            </tr>
-          </tbody>
+
+        <section class="white">
+          <div id="table_wrapper" class="lista">
+            <div class="card">
+              <span class="card__nome--add" onclick="show()">
+                Novo membro
+                <div class="card__iniciais add popup">+</div>
+              </span>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
-
-    
-  </div>
-
-</body>
-
+  </body>
 </html>
 
 <script>
-
-  var idEmpresa = sessionStorage.getItem('ID_EMPRESA')
-  var idUsuario = sessionStorage.getItem('ID_USUARIO')
-  var nomeEmpresa = sessionStorage.getItem('NOME_EMPRESA')
-  var nomeUsuario = sessionStorage.getItem('NOME_USUARIO')
-  var cargoUsuario = sessionStorage.getItem('CARGO_USUARIO')
+  var idEmpresa = sessionStorage.getItem("ID_EMPRESA");
+  var idUsuario = sessionStorage.getItem("ID_USUARIO");
+  var nomeEmpresa = sessionStorage.getItem("NOME_EMPRESA");
+  var nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+  var cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
+  const listaUsuarios = document.querySelector(".lista");
+  var nomeExcluido = "";
+  var nomeClicado = "";
+  var idClicado = "";
 
   if (nomeEmpresa != null) {
     nome_usuario.innerHTML = nomeEmpresa.toLocaleUpperCase(); // esta formatado para a primeira letra ser Maiuscula
     id_usuario.innerHTML = `(ID: ${idEmpresa})`;
     cargo_usuario.innerHTML = "EMPRESA";
   } else if (nomeUsuario != null) {
-    nome_usuario.innerHTML = nomeUsuario[0].toLocaleUpperCase() + nomeUsuario.substr(1);
+    nome_usuario.innerHTML =
+      nomeUsuario[0].toLocaleUpperCase() + nomeUsuario.substr(1);
     id_usuario.style.display = "none";
-    cargo_usuario.innerHTML = cargoUsuario[0].toLocaleUpperCase() + cargoUsuario.substr(1);
+    cargo_usuario.innerHTML =
+      cargoUsuario[0].toLocaleUpperCase() + cargoUsuario.substr(1);
   }
-
 
   function listarUsuarios() {
-    fetch(`/usuarios/listarUsuarios/${idEmpresa}`).then(function (resposta) {
-      if (resposta.ok) {
-        if (resposta.status == 204) {
-          throw "Nenhum resultado encontrado!!";
-        }
-        resposta.json().then(function (resposta) {
-
-          for (let i = 0; i < resposta.length; i++) {
-
-            var publicacao = resposta[i]; // i é a posição 0
-            console.log(publicacao);
-
-
-            let nomeUsuario = publicacao.nomeUser
-            let cargoUsuario = publicacao.cargoUser
-            let idUsuarioLog = publicacao.idUsuario
-            let isAdmin = (publicacao.userAdmin != null) ? '' : 'Sim'
-            let areaUser = publicacao.setorUser
-
-            if (idUsuario != idUsuarioLog) {
-              exibirUsuarios.innerHTML += `
-                              <tr>
-                                <td>${nomeUsuario}</td>
-                                <td>${areaUser}</td>
-                                <td>${cargoUsuario}</td>
-                                <td>${isAdmin}</td>
-                                <td class="gerenciar">
-                                  <img src="assets/lixeira.png" title="Deletar" onclick="popUpDeletar(${idUsuarioLog})">
-                                  <img src="assets/gear.png" title="Gerenciar usuário" onclick="listarFuncionario(${idUsuarioLog})">
-                                  <img src="assets/computer.png" title="Gerenciar máquina" onclick="showMaquina()">
-                                </td>
-                              </tr>
-                              `
-            }
-
+    fetch(`/usuarios/listarUsuarios/${idEmpresa}`)
+      .then(function (resposta) {
+        if (resposta.ok) {
+          if (resposta.status == 204) {
+            throw "Nenhum resultado encontrado!!";
           }
-        })
-      } else {
-        throw ('Houve um erro na API!');
-      }
-    }).catch(function (resposta) {
-      console.error(resposta);
-    });
+          resposta.json().then(function (resposta) {
+            for (let i = 0; i < resposta.length; i++) {
+              var publicacao = resposta[i]; // i é a posição 0
+              console.log("usuarios", publicacao);
+
+              let nomeUsuario =
+                publicacao.userAdmin != null
+                  ? publicacao.nomeUser
+                  : `${publicacao.nomeUser} (Admin)`;
+
+              sessionStorage.resposta = JSON.stringify(resposta);
+
+              let cargoUsuario = publicacao.cargoUser;
+              let idUsuarioLog = publicacao.idUsuario;
+              let areaUser = publicacao.setorUser;
+
+              if (idUsuarioLog != idUsuario) {
+                const divCard = document.createElement("div");
+                divCard.setAttribute("class", "card");
+                let name = document.createElement("span");
+                const icons = document.createElement("div");
+                const iniciais = document.createElement("div");
+                name.setAttribute("class", "card__nome");
+                var idFunc = `_${idUsuarioLog}`;
+                name.setAttribute("id", idFunc);
+                iniciais.setAttribute("class", "card__iniciais");
+                icons.setAttribute("class", "card__icons");
+                name.innerHTML = `${nomeUsuario}`;
+                name.appendChild(iniciais);
+                divCard.appendChild(name);
+                iniciais.innerHTML = nomeUsuario[0];
+
+                icons.innerHTML = `<img class="popup" id="img-lixeira" src="assets/lixeira.png" title="Deletar" onclick="popUpDeletar(${idUsuarioLog}, '${nomeUsuario}')">
+              <img class="popup" src="assets/settings-icon.png" title="Gerenciar usuário" onclick="listarFuncionario(${idUsuarioLog})">
+              <img class="popup" src="assets/pc-icon.png" title="Gerenciar máquina" onclick="showMaquina(${idUsuarioLog})">`;
+                divCard.appendChild(icons);
+
+                listaUsuarios.appendChild(divCard);
+              }
+            }
+            // nova requisição para pegar o id da maquina cujo dono foi selecionado:
+            fetch(`/usuarios/listarComp/${idEmpresa}`)
+              .then(function (resposta) {
+                if (resposta.ok) {
+                  if (resposta.status == 204) {
+                    var mensagem = document.createElement("span");
+                    throw "Nenhum resultado encontrado!!";
+                  }
+                  resposta.json().then(function (resposta) {
+                    for (let i = 0; i < resposta.length; i++) {
+                      var publicacao = resposta[i];
+                      // pegando elemento clicável criado no primeiro fetch através da semenlhança entre idUsuario e fkUsuario:
+                      var fkUser = `_${publicacao.fkUsuario}`;
+                      var name = document.getElementById(fkUser);
+
+                      // setando novo id para esse elemento, agora sim equivalente ao idComputador:
+                      name != null &&
+                        name.setAttribute("id", `$${publicacao.idComputador}`);
+                    }
+                  });
+                } else {
+                  throw "Houve um erro na API!";
+                }
+              })
+              .catch(function (resposta) {
+                console.error(resposta);
+              });
+          });
+        } else {
+          throw "Houve um erro na API!";
+        }
+      })
+      .catch(function (resposta) {
+        console.error(resposta);
+      });
   }
 
-  function deletarUsuario(idUsuarioLog) {
-    let deletUsuarioVar = idUsuarioLog
+  document.addEventListener("click", function (event) {
+    const popup = document.querySelector(".popup");
+    const cover = document.querySelector(".cover");
+    const html = document.querySelector("html");
+    const xizinho = document.querySelector(".xizinho");
+    if (event.target.matches(".xizinho") || event.target.matches(".cover")) {
+      cover.classList.remove("cover--open");
+      html.classList.remove("html--scroll");
+      var hidden_div = document.getElementById("hidden_form");
+      hidden_div.style.display = "none";
+      var hidden2 = document.querySelector(".hiddenComputador");
+      hidden2.style.display = "none";
+      hidden_confirmacao.style.display = "none";
+    }
 
+    if (event.target.matches(".popup")) {
+      cover.classList.add("cover--open");
+      html.classList.add("html--scroll");
+    }
+
+    if (event.target.matches(".card__nome")) {
+      window.location.href = "dashboard.html";
+
+      idClicado = event.target.getAttribute("id").split("$", 2)[1];
+      nomeClicado = event.target.innerHTML.split("<", 2)[0];
+
+      console.log("nomeClicado", nomeClicado);
+      console.log("idMaquinaClicado1", idClicado);
+
+      sessionStorage.setItem("idClicado", idClicado);
+      sessionStorage.setItem("nomeClicado", nomeClicado);
+    }
+
+    if (event.target.matches(".card__iniciais")) {
+      idClicado = event.target.parentNode.getAttribute("id").split("$", 2)[1];
+      nomeClicado = event.target.parentNode.innerHTML.split("<", 2)[0];
+
+      console.log("nomeClicado", nomeClicado);
+      console.log("idMaquinaClicado", idClicado);
+
+      sessionStorage.setItem("idClicado", idClicado);
+      sessionStorage.setItem("nomeClicado", nomeClicado);
+    }
+
+    if (event.target.matches("#img-lixeira")) {
+      nomeClicado =
+        event.target.parentNode.parentNode.firstChild.innerHTML.split(
+          "<",
+          2
+        )[0];
+
+      console.log("nomeClicado", nomeClicado);
+
+      nomeExcluido = nomeClicado;
+    }
+  });
+
+  function deletarUsuario(idUsuarioLog) {
+    let deletUsuarioVar = idUsuarioLog;
     fetch(`/usuarios/deletar/${deletUsuarioVar}`, {
       method: "DELETE",
       headers: {
-        "Content-Type": "application/json"
-      }
-    }).then(function (resposta) {
-
-      if (resposta.ok) {
-        window.location = "/painelFuncionarios.html"
-      } else if (resposta.status == 404) {
-        window.alert("Deu 404!");
-      } else {
-        throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
-      }
-    }).catch(function (resposta) {
-      console.log(`#ERRO: ${resposta}`);
-    });
+        "Content-Type": "application/json",
+      },
+    })
+      .then(function (resposta) {
+        if (resposta.ok) {
+          window.location = "/painelFuncionarios.html";
+        } else if (resposta.status == 404) {
+          window.alert("Deu 404!");
+        } else {
+          throw (
+            "Houve um erro ao tentar realizar a postagem! Código da resposta: " +
+            resposta.status
+          );
+        }
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+      });
   }
 
-  function fecharPopUpDelet() {
-    hidden_confirmacao.style.display = "none"
-  }
-
-  function popUpDeletar(idFuncionario) {
+  function popUpDeletar(idFuncionario, nome) {
     var hidden_div = document.getElementById("hidden_confirmacao");
-    hidden_div.style.display = "flex"
+    hidden_div.style.display = "flex";
 
     hidden_div.innerHTML = `
-    <h2>Tem certeza que deseja excluir o funcionário?</h2>
+    <h2>Deseja excluir ${nome} dos membros da equipe?</h2>
           <div class="botoes">
-            <button id="confirma_delet" onclick="deletarUsuario(${idFuncionario})">Sim</button>
-            <button id="cancela_delet" onclick="fecharPopUpDelet()">Não</button>
+            <button class="xizinho" id="confirma_delet" onclick="deletarUsuario(${idFuncionario})">Sim</button>
+            <button class="xizinho" id="cancela_delet" onclick="fecharPopUpDelet()">Não</button>
           </div>
-          `
-
-
+          `;
   }
 
   function show() {
-    var hidden_div = document.getElementById("hidden_form")
-    h2_form.innerHTML = "Cadastre um funcionário"
-    hidden_div.style.display = "block"
-    container_btns.innerHTML = `<button id="btn_cadastro" onclick="cadastroUsuario()">Cadastrar</button>`
-
-
-    ipt_nomeUsuario.value = ""
-    ipt_cargoUsuario.value = ""
-    ipt_setorUsuario.value = ""
-    ipt_cpfUsuario.value = ""
-    ipt_emailUsuario.value = ""
-    ipt_senhaUsuario.value = ""
-    chkAdmin.checked = false
-
+    var hidden_div = document.getElementById("hidden_form");
+    h2_form.innerHTML = "Cadastre um funcionário";
+    hidden_div.style.display = "block";
+    container_btns.innerHTML = `<button id="btn_cadastro" onclick="cadastroUsuario()">Cadastrar</button>`;
+    ipt_nomeUsuario.value = "";
+    ipt_cargoUsuario.value = "";
+    ipt_setorUsuario.value = "";
+    ipt_cpfUsuario.value = "";
+    ipt_emailUsuario.value = "";
+    ipt_senhaUsuario.value = "";
+    chkAdmin.checked = false;
   }
 
-  function hideDiv() {
-    var hidden_div = document.getElementById("hidden_form")
-    hidden_div.style.display = "none"
-  }
+  // function hideDiv() {
+  //   var hidden_div = document.getElementById("hidden_form")
+  //   hidden_div.style.display = "none"
+  // }
 
-  chk_uso_cpu.addEventListener("click", function(event){
-    if(chk_uso_cpu.checked){
-      triggerMaxUsoCpu.style.display = "block"
-      triggerMinUsoCpu.style.display = "block"
-
-    }else{
-      triggerMaxUsoCpu.style.display = "none"
-      triggerMinUsoCpu.style.display = "none"
-
+  chk_uso_cpu.addEventListener("click", function (event) {
+    if (chk_uso_cpu.checked) {
+      triggerMaxUsoCpu.style.display = "block";
+      triggerMinUsoCpu.style.display = "block";
+    } else {
+      triggerMaxUsoCpu.style.display = "none";
+      triggerMinUsoCpu.style.display = "none";
     }
-    })
-
-    chk_uso_ram.addEventListener("click", function(event){
-      if(chk_uso_ram.checked){
-      input_right_totalRam.style.display = "block"
-      triggerMaxRam.style.display = "block"
-      triggerMinRam.style.display = "block"
-
-    }else{
-      input_right_totalRam.style.display = "none"
-      triggerMaxRam.style.display = "none"
-      triggerMinRam.style.display = "none"
-
+  });
+  chk_uso_ram.addEventListener("click", function (event) {
+    if (chk_uso_ram.checked) {
+      input_right_totalRam.style.display = "block";
+      triggerMaxRam.style.display = "block";
+      triggerMinRam.style.display = "block";
+    } else {
+      input_right_totalRam.style.display = "none";
+      triggerMaxRam.style.display = "none";
+      triggerMinRam.style.display = "none";
     }
-    })
-
-    chk_temperatura_cpu.addEventListener("click", function(event){
-      if(chk_temperatura_cpu.checked){
-      triggerMaxTempCpu.style.display = "block"
-      triggerMinTempCpu.style.display = "block"
-
-    }else{
-      triggerMaxTempCpu.style.display = "none"
-      triggerMinTempCpu.style.display = "none"
-
+  });
+  chk_temperatura_cpu.addEventListener("click", function (event) {
+    if (chk_temperatura_cpu.checked) {
+      triggerMaxTempCpu.style.display = "block";
+      triggerMinTempCpu.style.display = "block";
+    } else {
+      triggerMaxTempCpu.style.display = "none";
+      triggerMinTempCpu.style.display = "none";
     }
-    })
-
+  });
   function showMaquina(idUsuario) {
-    var hidden_div = document.getElementById("hidden_maquina")
-    hidden_div.style.display = "block"
-    container_maquina.innerHTML += `<button id="btn_cadastrar_maquina" onclick="cadastrarMaquina(${idUsuario})">Cadastrar</button>`
+    var hidden_div = document.getElementById("hiddenComputador");
+    hidden_div.style.display = "block";
+    botao_left.innerHTML = ""
+    botao_left.innerHTML += `<button id="btn_cadastrar_maquina" onclick="cadastroComputador(${idUsuario})">Próximo</button>`
+  }
 
+  function hideComputador(){
+    var hidden_div = document.getElementById("hiddenComputador");
+    hidden_div.style.display = "none";
   }
 
   function hideMaquina() {
-    var hidden_div = document.getElementById("hidden_maquina")
-    hidden_div.style.display = "none"
+    var hidden_div = document.getElementById("hiddenComputador");
+    hidden_div.style.display = "none";
   }
-
   function cadastroUsuario() {
     var nomeUsuarioVar = ipt_nomeUsuario.value;
     var cargoUsuarioVar = ipt_cargoUsuario.value;
@@ -382,20 +515,26 @@
     var senhaUsuarioVar = ipt_senhaUsuario.value;
     var cpfUsuarioVar = ipt_cpfUsuario.value;
     var fkEmpresaVar = sessionStorage.ID_EMPRESA;
-    var fkUsuarioAdminVar = (document.getElementById("chkAdmin").checked) ? null : idUsuario
-
+    var fkUsuarioAdminVar = document.getElementById("chkAdmin").checked
+      ? null
+      : idUsuario;
     if (
-      nomeUsuarioVar == "" || cargoUsuarioVar == "" || setorUsuarioVar == "" || emailUsuarioVar == "" || senhaUsuarioVar == "" || cpfUsuarioVar == "" || fkUsuarioAdminVar == "" || fkEmpresaVar == ""
+      nomeUsuarioVar == "" ||
+      cargoUsuarioVar == "" ||
+      setorUsuarioVar == "" ||
+      emailUsuarioVar == "" ||
+      senhaUsuarioVar == "" ||
+      cpfUsuarioVar == "" ||
+      fkUsuarioAdminVar == "" ||
+      fkEmpresaVar == ""
     ) {
-      cardErro.style.display = "block"
-      mensagem_erro.innerHTML = "Existem dados em branco"
-
-    }else {
-
+      cardErro.style.display = "block";
+      mensagem_erro.innerHTML = "Existem dados em branco";
+    } else {
       fetch("/usuarios/cadastroUsuario", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           nomeUsuarioServer: nomeUsuarioVar,
@@ -405,70 +544,66 @@
           senhaUsuarioServer: senhaUsuarioVar,
           cpfUsuarioServer: cpfUsuarioVar,
           fkUsuarioAdminServer: fkUsuarioAdminVar,
-          fkEmpresaServer: fkEmpresaVar
+          fkEmpresaServer: fkEmpresaVar,
+        }),
+      })
+        .then(function (resposta) {
+          console.log("resposta: ", resposta);
+          if (resposta.ok) {
+            setTimeout(function () {
+              alert("Funcionou")
+              window.location = "/painelFuncionarios.html";
+            }, 1000);
+          } else {
+            alert("Não funcionou")
+            throw "Houve um erro ao tentar realizar o cadastro!";
+          }
         })
-      }).then(function (resposta) {
-
-        console.log("resposta: ", resposta);
-
-        if (resposta.ok) {
-          setTimeout(function () {
-            window.location = "/painelFuncionarios.html";
-          }, 1000);
-
-        } else {
-          throw ("Houve um erro ao tentar realizar o cadastro!");
-        }
-      }).catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-
-      });
+        .catch(function (resposta) {
+          console.log(`#ERRO: ${resposta}`);
+        });
     }
   }
-
   function listarFuncionario(idUsuarioLog) {
-    var hidden_div = document.getElementById("hidden_form")
-    hidden_div.style.display = "block"
-    h2_form.innerHTML = "Gerenciar funcionário"
-
-    container_btns.innerHTML = `<button id="btn_atualizacao" onclick="atualizarFuncionario(${idUsuarioLog})">Atualizar</button>`
-
+    var hidden_div = document.getElementById("hidden_form");
+    hidden_div.style.display = "block";
+    h2_form.innerHTML = "Gerenciar funcionário";
+    container_btns.innerHTML = `<button id="btn_atualizacao" onclick="atualizarFuncionario(${idUsuarioLog})">Atualizar</button>`;
     fetch(`/usuarios/listarFuncionario/${idUsuarioLog}`, {
       method: "GET",
       headers: {
-        "Content-Type": "application/json"
-      }
-    }).then(function (resposta) {
-      if (resposta.ok) {
-        if (resposta.status == 204) {
-          throw "Nenhum resultado encontrado!!";
-        }
-        resposta.json().then(function (resposta) {
-
-          for (let i = 0; i < resposta.length; i++) {
-
-            var publicacao = resposta[i]; // i é a posição 0
-            console.log(publicacao);
-
-            ipt_nomeUsuario.value = publicacao.nomeUser;
-            ipt_cargoUsuario.value = publicacao.cargoUser;
-            ipt_setorUsuario.value = publicacao.setorUser;
-            ipt_cpfUsuario.value = publicacao.cpfUser;
-            ipt_emailUsuario.value = publicacao.emailUser;
-            (publicacao.userAdmin == null) ? chkAdmin.checked = true : chkAdmin.checked = false
-
+        "Content-Type": "application/json",
+      },
+    })
+      .then(function (resposta) {
+        if (resposta.ok) {
+          if (resposta.status == 204) {
+            throw "Nenhum resultado encontrado!!";
           }
-        })
-      } else {
-        throw ('Houve um erro na API!');
-      }
-    }).catch(function (resposta) {
-      console.error(resposta);
-    });
+          resposta.json().then(function (resposta) {
+            for (let i = 0; i < resposta.length; i++) {
+              var publicacao = resposta[i]; // i é a posição 0
+              console.log(publicacao);
+              ipt_nomeUsuario.value = publicacao.nomeUser;
+              ipt_cargoUsuario.value = publicacao.cargoUser;
+              ipt_setorUsuario.value = publicacao.setorUser;
+              ipt_cpfUsuario.value = publicacao.cpfUser;
+              ipt_emailUsuario.value = publicacao.emailUser;
+              publicacao.userAdmin == null
+                ? (chkAdmin.checked = true)
+                : (chkAdmin.checked = false);
+            }
+          });
+        } else {
+          throw "Houve um erro na API!";
+        }
+      })
+      .catch(function (resposta) {
+        console.error(resposta);
+      });
   }
-
   function atualizarFuncionario(idUsuario) {
-    var idUsuarioAdminVar = sessionStorage.getItem('ID_USUARIO')
+    var idUsuarioAdminVar = sessionStorage.getItem("ID_USUARIO");
     var nomeUsuarioVar = ipt_nomeUsuario.value;
     var cargoUsuarioVar = ipt_cargoUsuario.value;
     var setorUsuarioVar = ipt_setorUsuario.value;
@@ -476,19 +611,27 @@
     var senhaUsuarioVar = ipt_senhaUsuario.value;
     var cpfUsuarioVar = ipt_cpfUsuario.value;
     var fkEmpresaVar = sessionStorage.ID_EMPRESA;
-    var fkUsuarioAdminVar = (document.getElementById("chkAdmin").checked) ? 'null' : idUsuarioAdminVar
+    var fkUsuarioAdminVar = document.getElementById("chkAdmin").checked
+      ? "null"
+      : idUsuarioAdminVar;
 
     if (
-      nomeUsuarioVar == "" || cargoUsuarioVar == "" || setorUsuarioVar == "" || emailUsuarioVar == "" || cpfUsuarioVar == "" || fkUsuarioAdminVar == "" || fkEmpresaVar == ""
+      nomeUsuarioVar == "" ||
+      cargoUsuarioVar == "" ||
+      setorUsuarioVar == "" ||
+      emailUsuarioVar == "" ||
+      cpfUsuarioVar == "" ||
+      fkUsuarioAdminVar == "" ||
+      fkEmpresaVar == "" ||
+      senhaUsuarioVar == ""
     ) {
-      cardErro.style.display = "block"
-      mensagem_erro.innerHTML = "Existem dados em branco"
+      cardErro.style.display = "block";
+      mensagem_erro.innerHTML = "Existem dados em branco";
     } else {
-
       fetch(`/usuarios/atualizarFuncionario/${idUsuario}`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           nomeUsuarioServer: nomeUsuarioVar,
@@ -500,54 +643,46 @@
           fkUsuarioAdminServer: fkUsuarioAdminVar,
           fkEmpresaServer: fkEmpresaVar,
           idUsuarioServer: idUsuario,
-          idUsuarioAdminServer: idUsuarioAdminVar
+          idUsuarioAdminServer: idUsuarioAdminVar,
+        }),
+      })
+        .then(function (resposta) {
+          console.log("resposta: ", resposta);
+          if (resposta.ok) {
+            alert("Atualizado com sucesso!");
+            setTimeout(function () {
+              window.location = "/painelFuncionarios.html";
+            }, 1000);
+          } else {
+            throw "Houve um erro ao tentar realizar a atualização!";
+          }
         })
-      }).then(function (resposta) {
-
-        console.log("resposta: ", resposta);
-
-        if (resposta.ok) {
-          alert("Atualizado com sucesso!")
-          setTimeout(function () {
-            window.location = "/painelFuncionarios.html";
-          }, 1000);
-
-        } else {
-          throw ("Houve um erro ao tentar realizar a atualização!");
-        }
-      }).catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-
-      });
+        .catch(function (resposta) {
+          console.log(`#ERRO: ${resposta}`);
+        });
     }
   }
 
-  function cadastrarMaquina(idUsuario){
+  //Cadastro do computador
+  function cadastroComputador(idUsuarioLog){
     var idEmpresaVar = sessionStorage.ID_EMPRESA;
-    var idUsuarioVar = idUsuario;
+    var idUsuarioLogVar = idUsuarioLog;
 
     var marcaMaquinaVar = ipt_marca_maquina.value;
     var modeloMaquinaVar = ipt_modelo_maquina.value;
     var serialNumberMaquinaVar = ipt_serial_number_maquina.value;
 
-    var usoCpuVar = chk_uso_cpu.checked ? "CPU" : null;
-    var temperaturaCpu = chk_temperatura_cpu.checked ? "CPU" : null;
-    var usoRam = chk_uso_ram.checked ? "RAM" : null;
-
-    fetch("/usuarios/cadastroMaquina", {
+    fetch("/usuarios/cadastroComputador", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
           idEmpresaServer: idEmpresaVar,
-          idUsuarioServer: idUsuarioVar,
+          idUsuarioServer: idUsuarioLogVar,
           marcaMaquinaServer: marcaMaquinaVar,
           modeloMaquinaServer: modeloMaquinaVar,
           serialNumberMaquinaServer: serialNumberMaquinaVar,
-          usoCpuServer: usoCpuVar,
-          temperaturaCpuServer: temperaturaCpuVar,
-          usoRamServer: usoRamVar
           
         })
       }).then(function (resposta) {
@@ -555,9 +690,17 @@
         console.log("resposta: ", resposta);
 
         if (resposta.ok) {
-          setTimeout(function () {
-            window.location = "/painelFuncionarios.html";
-          }, 1000);
+          // setTimeout(function () {
+            var hiddenComputador = document.getElementById("hiddenComputador")
+            hiddenComputador.style.display = "none";
+            hiddenComputador.innerHTML = ""
+
+            var hiddenComponente = document.getElementById("hiddenComponente")
+            hiddenComponente.style.display = "block";
+
+            hiddenComponente.innerHTML += `<button id="btn_cadastrar_componente" onclick="cadastroComponente(${idUsuarioLog})">Cadastrar</button>`
+            // selectComp()
+          // }, 1000);
 
         } else {
           throw ("Houve um erro ao tentar realizar o cadastro!");
@@ -567,5 +710,4 @@
 
       });
     }
-
 </script>

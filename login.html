@@ -62,7 +62,6 @@
               </li>
             </ul>
           </div>
-
         </nav>
       </div>
     </header>
@@ -76,9 +75,11 @@
           <div class="div-ipts">
             <input type="text" id="ipt_email" placeholder="E-mail">
             <input type="password" id="ipt_senha" placeholder="Senha">
+
+            <span class="validacao-inativa">Senha incorreta.</span>
           </div>
 
-          <button class="button--geral" id="enviar-bnt"><a class="white" href="dashboard.html">Entrar</a></button>
+          <button class="button--geral" id="enviar-bnt" onclick="isAdmin()">Entrar</button>
           <a href="novaSenha.html" class="esqueceu-senha">Esqueceu a senha?</a>
         </div>
 
@@ -87,7 +88,6 @@
         </div>
       </div>
     </div>
-
   </section>
 
   <div class="footer-container">
@@ -96,17 +96,25 @@
       reservados.
     </p>
   </div>
-
-
 </body>
 
 <script src="js/menu.js"></script>
 
 </html>
 
-
 <script>
   var contador = 0;
+
+  function validar(frase, alvo) {
+    const spanVal = document.querySelector('.validacao-inativa');
+
+    spanVal.classList.add('validacao-ativa')
+
+    alvo.classList.add('red')
+    alvo.value = ""
+
+    spanVal.innerHTML = frase
+  }
 
   function isAdmin() {
 
@@ -115,6 +123,16 @@
     fetch(`/usuarios/isAdmin/${emailUsuarioVar}`).then(function (resposta) {
       if (resposta.ok) {
         if (resposta.status == 204) {
+
+          if (emailVar == "" || senhaVar == "") {
+            alert("Existem campos vazios")
+
+            const ipt = document.getElementById('ipt_email');
+            validar('Campo obrigatório', ipt);
+
+            return false;
+          }
+
           var mensagem = document.createElement("span");
           throw "Nenhum resultado encontrado!!";
         }
@@ -128,10 +146,19 @@
             let isAdminUser = publicacao.userAdmin
 
             if (isAdminUser != null) {
-              alert('Você não tem permissão para entrar')
               isAdminUser = `= ${isAdminUser}`
+              let todosIpt = ""
+
+              const inputs = document.querySelectorAll('input');
+              inputs.forEach((input) => {
+                todosIpt = input
+
+                validar('', todosIpt);
+              })
+
+              validar('Usuário sem permissão de acesso.', todosIpt);
+
             } else {
-              // alert('é admin')
               isAdminUser = "is NULL"
               entrar(isAdminUser)
             }
@@ -158,6 +185,12 @@
 
     if (emailVar == "" || senhaVar == "") {
       alert("Existem campos vazios")
+
+      const alvo = document.querySelec
+
+      const ipt = document.getElementById('ipt_email');
+      validar('Campo obrigatório', ipt);
+
       return false;
     } else {
 
@@ -191,19 +224,27 @@
             sessionStorage.CARGO_USUARIO = json.cargoUser;
 
             setTimeout(function () {
-              window.location = "/dashboard.html";
+              window.location = "/painelFuncionarios.html";
             }, 1000);
 
           });
 
         } else {
           console.log("Houve um erro ao tentar realizar o login!");
-          alert('Email ou senha inválidos')
+
+          validar('Login ou senha incorretos.');
+
+          const inputs = document.querySelectorAll('input');
+          inputs.forEach((input) => {
+            todosIpt = input
+
+            validar('', todosIpt);
+          })
+
+          validar('Usuário sem permissão de acesso.', todosIpt);
 
           resposta.text().then(texto => {
             console.error(texto);
-
-
           });
         }
 

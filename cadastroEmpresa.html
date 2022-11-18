@@ -32,39 +32,37 @@
 
           <a href="cadastroEmpresa.html" class="navbar__itens a-cadastro a-cadastro--agora">Comece agora</a>
 
+          <div class="hidden-menu">
+            <img src="assets/img-menu.png" alt="Menu Lateral" class="img-open">
+
+            <ul id="menu">
+              <a href="" class="menu__logo">
+                <img src="assets/logo-versao1.png" alt="Tech Inside">
+              </a>
+
+              <li>
+                <img src="assets/home-icon.png" alt="início">
+                <a href="index.html" class="navbar__itens">Início</a>
+              </li>
+              <li>
+                <img src="assets/sobre-icon.png" alt="sobre">
+                <a href="index.html#sobre" class="navbar__itens">sobre</a>
+              </li>
+              <li>
+                <img src="assets/portifolio-icon.png" alt="portifolio">
+                <a href="index.html#portifolio" class="navbar__itens">Portifólio</a>
+              </li>
+              <li>
+                <img src="assets/login-icon.png" alt="login">
+                <a href="login.html" class="navbar__itens">Entrar</a>
+              </li>
+              <li class="menu-li--agora">
+                <img src="assets/cadastro-icon.png" alt="cadastro">
+                <a href="cadastroEmpresa.html" class="navbar__itens agora">Cadastre-se</a>
+              </li>
+            </ul>
+          </div>
         </nav>
-
-        <div class="hidden-menu">
-          <img src="assets/img-menu.png" alt="Menu Lateral" class="img-open">
-
-          <ul id="menu">
-            <a href="" class="menu__logo">
-              <img src="assets/logo-versao1.png" alt="Tech Inside">
-            </a>
-
-            <li>
-              <img src="assets/home-icon.png" alt="início">
-              <a href="index.html" class="navbar__itens">Início</a>
-            </li>
-            <li>
-              <img src="assets/sobre-icon.png" alt="sobre">
-              <a href="index.html#sobre" class="navbar__itens">sobre</a>
-            </li>
-            <li>
-              <img src="assets/portifolio-icon.png" alt="portifolio">
-              <a href="index.html#portifolio" class="navbar__itens">Portifólio</a>
-            </li>
-            <li>
-              <img src="assets/login-icon.png" alt="login">
-              <a href="login.html" class="navbar__itens">Entrar</a>
-            </li>
-            <li class="menu-li--agora">
-              <img src="assets/cadastro-icon.png" alt="cadastro">
-              <a href="cadastroEmpresa.html" class="navbar__itens agora">Cadastre-se</a>
-            </li>
-          </ul>
-        </div>
-
       </div>
     </header>
 
@@ -171,7 +169,7 @@
 
             let idEmpresa = publicacao.idEmpresa
             sessionStorage.ID_EMPRESA = idEmpresa;
-            window.location = "./cadastroEmpresaPt2.html";
+            window.location = "./cadastroUsuarioAdmin.html";
           }
         })
       } else {
