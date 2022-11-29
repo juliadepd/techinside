@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechInside | Encerrar conta</title>
+    <link rel="stylesheet" href="css/encerrarConta.css" />
+    <link rel="stylesheet" href="css/geral.css" />
+  </head>
+  <body>
+    <h1>Tem certeza que deseja encerrar a conta da sua empresa?</h1>
+    <div class="div_input">
+      <p>Para confirmar, digite <i>confirmar exclusão</i>.</p>
+      <div class="div_botao">
+          <input type="text" id="ipt_confirmacao" />
+          <button onclick="excluirEmpresa()">Confirmar</button>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+    function excluirEmpresa(){
+        var idEmpresaVar = sessionStorage.getItem("ID_EMPRESA");
+
+        if (ipt_confirmacao.value == "confirmar exclusão"){
+
+            fetch("/usuarios/deleteEmpresa", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              idEmpresaServer: idEmpresaVar,
+            })
+          }).then(function (resposta) {
+
+          if (resposta.ok) {
+
+            alert("Exclusão da empresa concluida com sucesso!")
+            window.opener.location = "/login.html";
+            self.close();
+
+          } else {
+            console.log("Houve um erro ao tentar excluir a conta!");
+
+            alert('Houve um erro ao tentar excluir empresa!')
+          }
+
+        }).catch(function (erro) {
+          console.log(erro);
+        })
+        return false;
+                
+            } else{
+                alert("Frase incorreta!")
+            }
+        }
+</script>

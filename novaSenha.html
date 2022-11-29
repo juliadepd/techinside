@@ -67,7 +67,7 @@
         </nav>
       </div>
     </header>
-  
+
 
     <div class="login-content">
       <img src="assets/mobile.png" class="img-mobile" alt="">
@@ -78,6 +78,8 @@
           <div class="div-ipts">
             <input type="text" id="ipt_email" placeholder="E-mail">
             <input type="text" id="ipt_cpf" placeholder="CPF">
+
+            <span class="validacao-inativa">Senha incorreta.</span>
           </div>
 
           <button class="button--geral" id="enviar-bnt" onclick="solicitacao()">Enviar</button>
@@ -110,18 +112,50 @@
 
 <script>
 
+  function validar(frase, alvo) {
+    const spanVal = document.querySelector('.validacao-inativa');
+    const listaIpts = document.querySelectorAll('input')
+    let ipt = []
+
+    spanVal.classList.add('validacao-ativa')
+
+    alvo.forEach(function (alvo) {
+      alvo.classList.add('red');
+    })
+    spanVal.innerHTML = frase
+  }
+
   function solicitacao() {
+
     var cpfUsuarioVar = ipt_cpf.value
     var emailUsuarioVar = ipt_email.value
 
+    if (cpfUsuarioVar == "" && emailUsuarioVar == "") {
 
-    if (cpfUsuarioVar == "" || emailUsuarioVar == "") {
-      alert("Existem campos vazios")
-      return false;
+      ipt = [ipt_cpf, ipt_email];
+
+      validar('Campos obrigatórios', ipt);
+
+      return false
+    }
+
+    if (cpfUsuarioVar == "") {
+
+      ipt = [ipt_cpf];
+
+      validar('Campo obrigatório', ipt);
+
+      return false
+
+    } if (emailUsuarioVar == "") {
+
+      ipt = [ipt_email];
+
+      validar('Campo obrigatório', ipt);
+
+      return false
+
     } else {
-
-      //console.log("FORM LOGIN: ", emailVar);
-      //console.log("FORM SENHA: ", senhaVar);
 
       fetch("/usuarios/solicitarUsuario", {
         method: "POST",
@@ -134,7 +168,6 @@
         }),
 
       }).then(function (resposta) {
-        console.log("ESTOU NO THEN DO entrar()!")
         console.log(resposta);
         if (resposta.ok) {
 
@@ -159,9 +192,17 @@
 
           resposta.text().then(texto => {
             console.error(texto);
-            alert('Email ou CPF incorretos')
 
+            const listaIpts = document.querySelectorAll('input')
+            // limpa todos os campos
+            listaIpts.forEach(function (input) {
+              input.value = ""
+            })
 
+            ipt = [ipt_email, ipt_cpf];
+
+            validar('E-mail ou CPF incorretos.', ipt);
+            const inputs = document.querySelectorAll('input');
 
           });
         }
@@ -173,4 +214,26 @@
       return false;
     }
   }
+
+  document.addEventListener('click', function (event) {
+
+    if (event.target.matches('.red')) {
+      const spanVal = document.querySelector('.validacao-inativa');
+      const listaIpts = document.querySelectorAll('input')
+      let ipt = []
+
+      spanVal.classList.remove('validacao-ativa')
+
+      event.target.classList.remove('red')
+    }
+  })
+
+  document.addEventListener('keyup', function (event) {
+    var tecla = event.keyCode;
+
+    if (tecla == 9) {
+      event.target.classList.remove('red')
+    }
+  })
+
 </script>

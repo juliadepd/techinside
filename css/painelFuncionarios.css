@@ -60,41 +60,70 @@ body {
   justify-content: space-between;
 }
 
-.hiddenComponente button,
-.container_header button,
-.hidden_form button,
-.hidden_confirmacao button,
-.hiddenComputador button {
-  height: 40px;
-  width: 175px;
-  font-size: 16px;
-  background-color: #1c1e23;
-  border: 2px solid #5447c8;
-  border-radius: 5px;
+.botoes {
+  display: flex;
+  gap: 20px;
+  width: min-content;
+  align-self: flex-end;
+  width: fit-content;
+  padding-bottom: 25px;
+  padding-right: 30px;
+}
+
+#btn_cadastrar_componente {
+  margin-top: 0;
+  margin-bottom: 34px;
+}
+
+.hiddenComponente button:first-child,
+.container_header button:first-child,
+.hidden_form button:first-child,
+.hidden_confirmacao button:first-child,
+.hiddenComputador button:first-child,
+#btn_atualizacao {
+  height: 32px;
+  width: 120px;
+  font-size: 17px;
+  border-radius: 3px;
   cursor: pointer;
-  color: white;
+  border: none;
+  background-color: rgb(232, 28, 93);
+}
+
+.hiddenComponente button:nth-child(2),
+.container_header button:nth-child(2),
+.hidden_form button:nth-child(2),
+.hidden_confirmacao button:nth-child(2),
+.hiddenComputador button:nth-child(2) {
+  height: 32px;
+  width: 120px;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-radius: 3px;
+  cursor: pointer;
+  color: rgb(179, 9, 88);
 }
 
 .hiddenComponente button:hover,
 .container_header button:hover,
 .hidden_form button:hover,
 .hidden_confirmacao button:hover,
-.hiddenComputador button:hover  {
-  background-color: #5447c8;
-  border: 1px solid #1c1e23;
+.hiddenComputador button:hover {
+  background-color: rgba(57, 57, 57, 0.329);
   color: floralwhite;
-  transition: ease 0.3s;
+  transition: ease 0.1s;
+  border: none;
 }
 
 #confirma_delet {
-  border: 2px solid red
+  background-color: rgb(232, 28, 93)
 }
 
 #confirma_delet:hover {
-  background-color: red;
-  border: 1px solid #1c1e23;
+  background-color: rgb(218, 124, 154);
+  border: 1px solid #1c1e2300;
   color: floralwhite;
-  transition: ease 0.3s;
+  transition: ease 0.1s;
 }
 
 /* #exibirUsuarios div {
@@ -157,46 +186,6 @@ td {
   border-bottom: 1px solid #131418;
 }
 
-.hidden_form,
-.hidden_confirmacao {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  color: rgb(57, 57, 66);
-  /* background-image: linear-gradient(to right bottom, rgba(203, 202, 202, 0.956), floralwhite, rgba(207, 206, 206, 0.956)); */
-  background-color: #16151b;
-  box-shadow: 0px 5px 30px 8px rgba(0, 0, 0, 0.659);
-  border-radius: 10px;
-  padding: 50px 150px;
-  border: 1px solid black;
-  box-shadow: 1px 1px 5px #000;
-  z-index: 1;
-  color: #000;
-}
-
-.hiddenComponente,
-.hiddenComputador {
-  position: absolute;
-  outline: 2px solid red;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  background-color: #131418;
-  border-radius: 10px;
-  border: 1px solid black;
-  box-shadow: 1px 1px 5px #000;
-  z-index: 1;
-  width: 50vw;
-  height: 60vh;
-}
-
-.hiddenComputador h2,
-.hiddenComponente h2{
-  margin: 0 0 30px 0;
-}
 
 .hiddenComponente button,
 .hiddenComputador button {
@@ -206,26 +195,43 @@ td {
 .container_maquina,
 .containerComponente {
   display: flex;
-  height: 50vh;
-  flex-direction: column;
-  margin-top: 40px;
+  padding-top: 30px;
   align-items: center;
-
+  padding-bottom: 30px;
+  max-width: 500px;
+  width: 100%;
+  flex-direction: column;
 }
 
-.form_maquina{
-  border: 1px solid green;
+/* .form_maquina {
   width: 100%;
   height: 50vh;
   display: flex;
   align-items: center;
   justify-content: center;
+} */
+.form_maquina {
+  display: flex;
+  /* gap: 32px; */
+  padding: 30px 0;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
-.form_maquina_componente{
+.form_maquina_componente {
   width: 100%;
-  height: 50vh;
   display: flex;
+  flex-direction: column;
+  padding: 30px 10px;
+  align-items: center;
+  cursor: default;
+}
+
+#texto_recomendacao {
+  color: black;
+  max-width: 100%;
 }
 
 .left {
@@ -233,7 +239,9 @@ td {
   flex-direction: column;
   justify-content: space-around;
   /*align-items: center;*/
-  width: 50%;
+  width: 400px;
+  gap: 25px;
+  padding: 0px 30px;
 }
 
 
@@ -246,67 +254,82 @@ td {
   padding-left: 30px;
 }
 
-.componente_left{
-  display: flex;
-  flex-direction: column;
-  width: 50%;
-  height: 100%;
+.divComponentes:nth-child(1) {
+  grid-area: cpu;
 }
 
-.divComponentes{
-  height: 100%;
+.divComponentes:nth-child(2) {
+  grid-area: temp;
+}
+
+.divComponentes:nth-child(3) {
+  grid-area: ram;
+  margin-bottom: 32px;
+}
+
+.componente_left {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  height: 100%;
+  grid-template-areas: "cpu temp"
+    "ram ram";
+  ;
   align-items: center;
-
+  justify-content: center;
+  flex-direction: column;
+  gap: 42px;
 }
 
-.tituloComponentes{
+/* 
+.divComponentes:nth-child(3) {
+  align-self: center;
+} */
+
+.divComponentes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.tituloComponentes {
   height: 33.3%;
 }
 
-.chkComponentes{
+.chkComponentes {
   height: 33.3%;
+  display: flex;
+  gap: 10px;
+  color: rgb(57, 57, 66) !important;
 }
 
-.containerChecked{
-  height: 33.3%;
+.setorCard {
+  font-size: 13.5px;
+  color: #53537a;
+  font-weight: 100;
 }
 
-.componente_right{
-  width: 50%;
+
+.componente_right {
   height: 100%;
+  width: 100%;
 }
 
-.container_componente_right{
+.container_componente_right {
   position: relative;
-  width: 80%;
-  height: 80%;
-  left: 10%;
-  top: 10%;
-  float: center;
+  max-width: 100%;
 }
 
 .containerChecked {
   display: flex;
-  justify-content: flex-start;
-  width: 60%;
+  gap: 25px;
 }
 
 .containerCheckedRAM {
   display: flex;
-  width: 80%;
+  gap: 25px;
 
 }
 
-.inputMaquinaChecked {
-  width: 50%;
-  height: 25px;
-  margin-right: 15px;
-  color: black;
-  border: none;
-}
 
 
 .input_right_maquina {
@@ -318,41 +341,114 @@ td {
 
 }
 
+.hidden_form {
+  display: flex;
+  flex-direction: row !important;
+  padding-bottom: 20px;
+}
 
-.hidden_confirmacao {
-  height: 250px;
+.hidden_form,
+.hidden_confirmacao,
+.hiddenComputador,
+#hiddenComponente {
+  position: absolute;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  gap: 30px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: rgb(57, 57, 66) !important;
+  background-image: linear-gradient(to right bottom, rgba(203, 202, 202, 0.956), floralwhite, rgba(207, 206, 206, 0.956));
+  background-color: #16151b;
+  box-shadow: 0px 5px 30px 8px rgba(0, 0, 0, 0.537);
+  border-radius: 10px;
+  z-index: 1;
+  max-width: 600px;
+  width: 80%;
+  /* margin: 0px 30px; */
+}
+
+
+
+.hiddenComputador,
+.hiddenComponente {
+  width: fit-content;
+  display: flex;
+}
+
+.faixa {
+  height: 35px;
+  width: 100%;
+  background-color: rgb(180, 32, 62);
+  color: white;
+  border: 2px solid rgb(180, 32, 62);
+  font-size: 18px;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  align-items: center;
+}
+
+.faixa h3 {
+  text-align: start;
+  /* font-size: 18px; */
+  font-weight: 400;
+}
+
+.hidden_confirmacao h2,
+.hidden_form h2,
+.hiddenComputador h2,
+.hiddenComponente h2,
+#hiddenComponente h2 {
+  color: rgb(57, 57, 66) !important;
+  text-align: left;
+  font-size: 20px;
+  font-weight: 500;
+  padding: 0px 30px 10px 30px;
+}
+
+.hidden_form .faixa {
+  margin-bottom: 30px;
+}
+
+label {
+  font-size: 16px;
+  color: black;
 }
 
 .hiddenComponente p,
 .hidden_form p,
-.container_maquina p{
+.container_maquina p {
   position: absolute;
   top: 10px;
   right: 15px;
-  cursor: pointer;
   font-weight: 1000;
+
 }
 
 .ipt_form {
   /* outline: 1px solid red; */
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
-  margin: 30px 0;
+  text-align: left;
+  color: #22252b;
+  padding: 10px 30px 30px;
+  gap: 12px;
 }
 
 .ipt_form input,
-.left input {
-  margin: 5px;
-  background-color: #22252b;
-  color: floralwhite;
-  font-size: 16px;
-  border: none;
-  padding: 6px;
-  border-radius: 5px;
+.left input,
+.inputMaquinaChecked {
+  padding: 13px;
+  border: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.397);
+  color: black;
+  background-color: #ffffff00;
+}
+
+.inputMaquinaChecked {
+  width: 110px;
   text-align: center;
 }
 
@@ -366,27 +462,31 @@ td {
   max-width: 1000px;
   width: 100%;
   overflow: auto;
-  /* outline: 1px solid rgba(255, 255, 255, 0.116); */
+  /* outline: 1px solid rgba(0, 0, 0, 0.116); */
   border-radius: 5px;
   margin: 70px auto 0;
   position: relative;
-  
+}
+
+.xizinho {
+  margin-top: -4px;
+  cursor: pointer;
 }
 
 #table_wrapper::-webkit-scrollbar {
   width: 14px;
-  background: none;
-
+  /* background: none; */
 }
 
-#table_wrapper::-webkit-scrollbar-track {
+/* #table_wrapper::-webkit-scrollbar-track {
   background: none;
-}
+} */
 
 #table_wrapper::-webkit-scrollbar-thumb {
-  background-color: rgb(54, 53, 56);
+  background-color: rgba(0, 0, 0, 0.116);
+
   border-radius: 3px;
-  background: none;
+  /* background: none; */
 
 }
 
@@ -438,14 +538,13 @@ td {
   color: rgba(36, 34, 42, 0.836);
   transition: background-image 0.27s;
   padding: 20px;
-  /* box-shadow: 0px 2px 4px 1px #131418a1; */
   transition: 0.2s;
   background-color: #2021275f;
-  box-shadow:  8px 12px 15px 1px #13141882;;
-  
-
+  box-shadow: 8px 12px 15px 1px #13141882;
+  position: relative;
 
 }
+
 
 .card__iniciais {
   background-color: rgb(45, 45, 71);
@@ -459,44 +558,52 @@ td {
   padding-top: 10px;
 }
 
-  .white {
-    display: flex;
-    width: -webkit-fill-available;
-    padding: 0;
-    margin: 0;
-    height: 100%;
-    justify-content: center;
-    border-radius: 5px;
-    margin-top: 100px;
-    position: fixed;
-  }
+.white {
+  display: flex;
+  width: -webkit-fill-available;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  justify-content: center;
+  border-radius: 5px;
+  margin-top: 100px;
+  position: fixed;
+}
 
-  /* .content {
+/* .content {
     padding-left: 198px !important;
   } */
 
-.card__nome, .card__nome--add {
+.card__nome,
+.card__nome--add {
   display: flex;
   flex-direction: row-reverse;
   gap: 15px;
   cursor: pointer;
   color: rgb(211, 211, 211);
-
 }
 
-.card__nome:hover, .card__nome--add:hover {
-  color: rgb(255, 255, 255);
+.card__nome div {
+  color: rgb(211, 211, 211);
+  display: grid;
+}
+
+.card__nome:hover,
+.card__nome--add:hover {
+  color: rgba(255, 255, 255, 0.671);
 }
 
 
-.card__nome:hover .card__iniciais, .card__nome--add:hover .card__iniciais {
+.card__nome:hover .card__iniciais,
+.card__nome--add:hover .card__iniciais {
   background-color: rgba(88, 88, 113, 0.84);
 }
 
 
 .card:hover {
   box-shadow: 1px 3px 6px 1px #131418f7;
-}   
+}
+
 .popup {
   cursor: pointer;
 }
@@ -525,7 +632,7 @@ td {
 }
 
 .html--scroll {
-  overflow-y: hidden;
+  overflow-y: clip !important;
 }
 
 .card__iniciais.add {
@@ -535,9 +642,18 @@ td {
 
 @media (max-width: 500px) {
   .white {
-    margin-top: 0; 
+    margin-top: 0;
     position: relative;
     width: 100%;
+  }
+
+  #hiddenComponente {
+    margin-top: 62px;
+  }
+
+  .containerCheckedRAM {
+    display: block;
+    gap: 25px;
   }
 
   .body {
@@ -548,4 +664,102 @@ td {
   .content {
     min-height: auto !important;
   }
+
+  .hidden_confirmacao h2,
+  .hidden_form h2,
+  .hiddenComputador h2,
+  .hiddenComponente h2 {
+    font-size: 18px;
+  }
+
+  .left {
+    width: 330px;
+  }
 }
+
+@media (max-width: 768px) {
+  .botoes {
+    align-self: center;
+    padding-right: 0;
+    gap: 10px;
+  }
+}
+
+.alerta {
+  position: absolute;
+  width: 83px;
+  height: 10px;
+  bottom: 26px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.tooltip {
+  opacity: 0;
+  position: absolute;
+  transition: 0.3s;
+  opacity: 0;
+  background-color: rgb(184, 184, 184);
+  max-width: 300px;
+  width: 100%;
+  height: 170px;
+  top: 67px;
+  pointer-events: none;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+}
+
+.active-tooltip {
+  opacity: 1 !important;
+  position: absolute;
+  transition: 0.3s;
+  opacity: 0;
+  background-color: rgb(184, 184, 184);
+  max-width: 300px;
+  width: 100%;
+  height: 170px;
+  top: 67px;
+  pointer-events: visible;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.infoTooltip {
+  color: black;
+  font-size: 20px;
+}
+
+.card__icons {
+  align-self: flex-end;
+}
+
+.alerta-green {
+  background-color: rgb(2, 164, 2);
+}
+
+.alerta-red {
+  background-color: rgb(252, 65, 36);
+}
+
+.alerta-orange {
+  background-color: rgb(255, 193, 36);
+}
+
+.tooltip-green {
+  background-color: rgb(123, 199, 123);
+}
+
+.tooltip-red {
+  background-color: rgb(209, 116, 116);
+}
+
+.tooltip-orange {
+  background-color: rgb(241, 205, 132);
+}
+
+#hiddenComponente {}

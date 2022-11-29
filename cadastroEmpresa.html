@@ -62,7 +62,9 @@
               </li>
             </ul>
           </div>
+
         </nav>
+
       </div>
     </header>
 
@@ -74,9 +76,12 @@
 
           <div class="div-ipts">
             <input type="text" id="ipt_nomeEmpresa" placeholder="Nome empresa">
-            <input type="text" id="ipt_cnpjEmpresa" placeholder="CNPJ">
-            <input type="text" id="ipt_telefoneEmpresa" placeholder="Telefone">
+            <input type="number" id="ipt_cnpjEmpresa" placeholder="CNPJ" pattern="^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$">
+            <input type="number" id="ipt_telefoneEmpresa" placeholder="Telefone">
             <input type="text" id="ipt_emailEmpresa" placeholder="E-mail">
+
+            <span class="validacao-inativa">Senha incorreta.</span>
+
           </div>
 
           <button class="button--geral" id="enviar-bnt" onclick="cadastrarEmpresa()">Cadastro</button>
@@ -105,6 +110,30 @@
 
 </html>
 <script>
+
+// document.addEventListener('keydown', function(event) {
+//   if (event.target.matches('#ipt_cnpjEmpresa')) {
+//     const x = event.target.value
+//       .replace(/\D+/g, '')
+//       .match(/(\d{0,2})(\d{0,3})(\d{0,3})(\d{0,4})(\d{0,2})/);
+//     event.target.value =
+//       `${x[1]}` + (x[2] ? `.${x[2]}` : ``) + (x[3] ? `.${x[3]}` : ``) + (x[4] ? `-${x[4]}` : ``) + (x[5] ? `-${x[5]}` : ``) + (x[6] ? `-${x[6]}` : ``) + (x[7] ? `-${x[7]}` : ``);
+//   }
+// })
+
+  function validar(frase, alvo) {
+    const spanVal = document.querySelector('.validacao-inativa');
+    const listaIpts = document.querySelectorAll('input')
+    let ipt = []
+
+    spanVal.classList.add('validacao-ativa-cadastro')
+
+    alvo.forEach(function (alvo) {
+      alvo.classList.add('red');
+    })
+    spanVal.innerHTML = frase
+  }
+
   function cadastrarEmpresa() {
 
     var nomeEmpresaVar = ipt_nomeEmpresa.value;
@@ -112,71 +141,147 @@
     var telefoneEmpresaVar = ipt_telefoneEmpresa.value;
     var emailEmpresaVar = ipt_emailEmpresa.value;
 
-    if (
-      nomeEmpresaVar == "" || cnpjEmpresaVar == "" || telefoneEmpresaVar == "" || emailEmpresaVar == ""
-    ) {
-      cardErro.style.display = "flex"
-      mensagem_erro.innerHTML = "Existem dados em branco";
-      errogif.style.display = "block"
+    if (nomeEmpresaVar == "") {
 
-      return false;
+      ipt = [ipt_nomeEmpresa];
 
-    } else {
-      fetch("/usuarios/cadastrarEmpresa", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
+      validar('Campo obrigatório', ipt);
 
-          nomeEmpresaServer: nomeEmpresaVar,
-          cnpjEmpresaServer: cnpjEmpresaVar,
-          telefoneEmpresaServer: telefoneEmpresaVar,
-          emailEmpresaServer: emailEmpresaVar
-        })
-      }).then(function (resposta) {
+    } if (cnpjEmpresaVar == "") {
 
-        console.log("resposta: ", resposta);
+      ipt = [ipt_cnpjEmpresa];
 
+      validar('Campo obrigatório', ipt);
+
+    } if (telefoneEmpresaVar == "") {
+
+      ipt = [ipt_telefoneEmpresa];
+
+      validar('Campo obrigatório', ipt);
+    }
+
+    if (emailEmpresaVar == "") {
+
+      ipt = [ipt_emailEmpresa];
+
+      validar('Campo obrigatório', ipt);
+    }
+
+    else {
+      if (telefoneEmpresaVar.length < 11) {
+
+        ipt = [ipt_telefoneEmpresa];
+        validar("Insira um número de telefone válido", ipt);
+      }
+
+      if (cnpjEmpresaVar.length < 14) {
+
+        ipt = [ipt_cnpjEmpresa];
+        validar("Insira um CNPJ válido", ipt);
+      }
+
+      console.log(usuario)
+
+      if (!emailEmpresaVar.indexOf('.') == -1 ||
+        emailEmpresaVar.indexOf('@') == -1 ||
+        emailEmpresaVar.indexOf(' ') >= 1) {
+
+        ipt = [ipt_emailEmpresa];
+        validar("Insira um e-mail válido", ipt);
+      }
+
+      if (emailEmpresaVar.indexOf('.') == 1 &&
+        emailEmpresaVar.indexOf('@') == 1 &&
+        emailEmpresaVar.indexOf(' ') == -1) {
+
+        var usuario = emailEmpresaVar.split('@')[0]
+        var dominio = emailEmpresaVar.split('@')[1]
+
+        if (usuario.length < 1 ||
+          dominio.length < 3) {
+          ipt = [ipt_emailEmpresa];
+          validar("Insira um e-mail válido", ipt);
+        }
+      }
+
+      else {
+        fetch("/usuarios/cadastrarEmpresa", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+
+            nomeEmpresaServer: nomeEmpresaVar,
+            cnpjEmpresaServer: cnpjEmpresaVar,
+            telefoneEmpresaServer: telefoneEmpresaVar,
+            emailEmpresaServer: emailEmpresaVar
+          })
+        }).then(function (resposta) {
+
+          console.log("resposta: ", resposta);
+
+          if (resposta.ok) {
+            setEmpresa()
+
+          } else {
+            throw ("Houve um erro ao tentar realizar o cadastro!");
+          }
+        }).catch(function (resposta) {
+          console.log(`#ERRO: ${resposta}`);
+
+        });
+
+        return false;
+      }
+    }
+
+    function setEmpresa() {
+      fetch(`/usuarios/setEmpresa`).then(function (resposta) {
         if (resposta.ok) {
-          setEmpresa()
+          if (resposta.status == 204) {
+            var mensagem = document.createElement("span");
+            throw "Nenhum resultado encontrado!!";
+          }
+          resposta.json().then(function (resposta) {
 
+            for (let i = 0; i < resposta.length; i++) {
+
+              var publicacao = resposta[i];
+
+              let idEmpresa = publicacao.idEmpresa
+              sessionStorage.ID_EMPRESA = idEmpresa;
+              window.location = "./cadastroUsuarioAdmin.html";
+            }
+          })
         } else {
-          throw ("Houve um erro ao tentar realizar o cadastro!");
+          throw ('Houve um erro na API!');
         }
       }).catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-
+        console.error(resposta);
       });
-
-      return false;
     }
-  }
 
-  function setEmpresa() {
-    fetch(`/usuarios/setEmpresa`).then(function (resposta) {
-      if (resposta.ok) {
-        if (resposta.status == 204) {
-          var mensagem = document.createElement("span");
-          throw "Nenhum resultado encontrado!!";
-        }
-        resposta.json().then(function (resposta) {
+    document.addEventListener('click', function (event) {
 
-          for (let i = 0; i < resposta.length; i++) {
+      if (event.target.matches('.red')) {
+        const spanVal = document.querySelector('.validacao-inativa');
+        const listaIpts = document.querySelectorAll('input')
+        let ipt = []
 
-            var publicacao = resposta[i]; // i é a posição 0
-            console.log(publicacao);
+        spanVal.classList.remove('validacao-ativa-cadastro')
 
-            let idEmpresa = publicacao.idEmpresa
-            sessionStorage.ID_EMPRESA = idEmpresa;
-            window.location = "./cadastroUsuarioAdmin.html";
-          }
-        })
-      } else {
-        throw ('Houve um erro na API!');
+        event.target.classList.remove('red')
       }
-    }).catch(function (resposta) {
-      console.error(resposta);
-    });
+    })
+
+    document.addEventListener('keyup', function (event) {
+      var tecla = event.keyCode; // Obtém o valor Unicode (decimal) e descobre a tecla clicada
+
+      if (tecla == 9) {
+        event.target.classList.remove('red')
+      }
+    })
   }
+
 </script>

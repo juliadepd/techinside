@@ -14,7 +14,7 @@
   <link rel="icon" type="image/x-icon" href="assets/trimmed-icon.png">
 </head>
 
-<body onload="validarSessaoUPDATE()">
+<body>
   <section id="inicio">
 
     <header class="header">
@@ -75,8 +75,12 @@
           <h1 class="title">Redefina sua senha</h1>
 
           <div class="div-ipts">
+            <input id="ipt_email" placeholder="E-mail">
             <input type="password" id="ipt_nova_senha" placeholder="Nova senha">
             <input type="password" id="ipt_confirma_senha" placeholder="Confirme a nova senha">
+
+            <span class="validacao-inativa">Senha incorreta.</span>
+
           </div>
 
           <button class="button--geral" id="enviar-bnt" onclick="redefinir()">Redefinir</button>
@@ -98,22 +102,66 @@
     </p>
   </div>
 
-
 </body>
 <script src="js/menu.js"></script>
 
 </html>
 
-
 <script>
+
+  function validar(frase, alvo) {
+    const spanVal = document.querySelector('.validacao-inativa');
+    const listaIpts = document.querySelectorAll('input')
+    let ipt = []
+
+    spanVal.classList.add('validacao-ativa')
+
+    alvo.forEach(function (alvo) {
+      alvo.classList.add('red');
+    })
+    spanVal.innerHTML = frase
+  }
 
   function redefinir() {
     var emailVar = ipt_email.value;
     var senhaVar = ipt_nova_senha.value;
     var confirmarSenha = ipt_confirma_senha.value;
 
+    if (emailVar == "" && senhaVar == "" && confirmarSenha == "") {
+
+      ipt = [ipt_email, ipt_nova_senha, ipt_confirma_senha];
+
+      validar('Campos obrigatórios', ipt);
+
+      return false
+    }
+
+    if (senhaVar == "") {
+
+      ipt = [ipt_nova_senha];
+
+      validar('Campo obrigatório', ipt);
+
+      return false
+
+    } if (confirmarSenha == "") {
+
+      ipt = [ipt_confirma_senha];
+
+      validar('Campo obrigatório', ipt);
+
+      return false
+
+    }
+
     if (senhaVar != confirmarSenha) {
-      alert("As senhas não coincidem")
+
+      ipt = [ipt_confirma_senha];
+
+      validar('As senhas não coincidem', ipt);
+
+      return false
+
     } else {
 
       fetch("/usuarios/novasenhaUsuario", {
@@ -132,14 +180,30 @@
           console.log("resposta: ", resposta);
 
           if (emailVar != sessionStorage.getItem('EMAIL_USUARIO')) {
-            alert("Email inválido")
-            // input_email.style.border = "thin solid red"
+
+            ipt_email.value = ""
+            ipt = [ipt_email];
+
+            validar('E-mail inválido.', ipt);
+
           }
           else if (resposta.ok) {
-            // span_validacao.innerHTML = ""
-            //cardErro.style.display = "block";
 
-            alert("Senha atualizada com sucesso!!");
+            ipt_email.value = ""
+            ipt_confirma_senha.value = ""
+            ipt_nova_senha.value = ""
+            ipt = [ipt_email, ipt_confirma_senha, ipt_nova_senha];
+
+            validar('Senha atualizada com sucesso!', ipt);
+
+            const listaIpts = document.querySelectorAll('input')
+
+            listaIpts.forEach(function (input) {
+              input.style.borderColor = "green"
+            })
+
+            spanVal.style.color = 'green'
+            spanVal.style.color = 'green'
 
             setTimeout(() => {
               window.location = "/login.html";
@@ -157,7 +221,26 @@
 
       return false;
     }
-
-
   }
+
+  document.addEventListener('keyup', function (event) {
+    var tecla = event.keyCode;
+
+    if (tecla == 9) {
+      event.target.classList.remove('red')
+    }
+  })
+
+  document.addEventListener('click', function (event) {
+
+    if (event.target.matches('.red')) {
+      const spanVal = document.querySelector('.validacao-inativa');
+      const listaIpts = document.querySelectorAll('input')
+      let ipt = []
+
+      spanVal.classList.remove('validacao-ativa')
+
+      event.target.classList.remove('red')
+    }
+  })
 </script>

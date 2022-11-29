@@ -11,27 +11,14 @@
     <link rel="icon" type="image/x-icon" href="assets/trimmed-icon.png" />
   </head>
 
-  <body onload="listarComp(), validarSessao()">
+  <body onload="listarComp()">
     <script>
-      window.fwSettings = {
-        widget_id: 150000001098,
+      window.fwSettings={
+      'widget_id':151000001483
       };
-      !(function () {
-        if ("function" != typeof window.FreshworksWidget) {
-          var n = function () {
-            n.q.push(arguments);
-          };
-          (n.q = []), (window.FreshworksWidget = n);
-        }
-      })();
+      !function(){if("function"!=typeof window.FreshworksWidget){var n=function(){n.q.push(arguments)};n.q=[],window.FreshworksWidget=n}}() 
     </script>
-    <script
-      type="text/javascript"
-      class="btn-desk"
-      src="https://widget.freshworks.com/widgets/150000001098.js"
-      async
-      defer
-    ></script>
+    <script type='text/javascript' src='https://widget.freshworks.com/widgets/151000001483.js' async defer></script>
     <div class="body">
       <div class="div_cover"></div>
       <div class="logo-mobile">
@@ -58,7 +45,14 @@
             </li>
           </a>
 
-          <li class="li-sair" onclick="limparSessao()">
+          <a onclick="window.open('encerrarConta.html', '_blank', 'location=yes, height=360, width=720, status=yes');">
+            <li class="li-col">
+              <img src="assets/deletar-conta.png" />
+              <span>Encerrar conta</span>
+            </li>
+          </a>
+
+          <li href = "login.html" class="li-sair" onclick="limparSessao()">
             <img src="assets/icon-logout.png" />
             <span>Sair</span>
           </li>
@@ -87,32 +81,34 @@
         </div>
 
         <div class="graficos">
-          <div class="container_filtros">
-            <!-- <h2>Máquina do colaborador</h2> -->
-            <div class="div_selects">
-              <select id="select_computador">
-                <option value="0">Usuário</option>
-              </select>
-
-              <select id="select_grafico">
-                <option value="0">Componente</option>
-              </select>
+          <div class="container_containers">
+            <div class="container_filtros">
+              <!-- <h2>Máquina do colaborador</h2> -->
+              <div class="div_selects">
+                <select id="select_computador">
+                  <option value="0">Usuário</option>
+                </select>
+  
+                <select id="select_grafico">
+                  <option value="0">Componente</option>
+                </select>
+              </div>
             </div>
-          </div>
-          <div class="container_porcentagens">
-            <div id="div_porcentagem_cpu">
-              <h3>Uso CPU (média diária)</h3>
-              <p id="txt_uso_cpu">N/A</p>
-            </div>
-            <hr />
-            <div id="div_temperatura_cpu">
-              <h3>Temperatura CPU (média diária)</h3>
-              <p id="txt_temperatura_cpu">N/A</p>
-            </div>
-            <hr />
-            <div id="div_uso_ram">
-              <h3>Uso RAM (média diária)</h3>
-              <p id="txt_uso_ram">N/A</p>
+            <div class="container_porcentagens">
+              <div id="div_porcentagem_cpu">
+                <h3>Uso CPU</h3>
+                <p id="txt_uso_cpu">N/A</p>
+              </div>
+              <hr />
+              <div id="div_temperatura_cpu">
+                <h3>Temperatura CPU</h3>
+                <p id="txt_temperatura_cpu">N/A</p>
+              </div>
+              <hr />
+              <div id="div_uso_ram">
+                <h3>Uso RAM</h3>
+                <p id="txt_uso_ram">N/A</p>
+              </div>
             </div>
           </div>
           <div class="container_canvas">
@@ -125,22 +121,22 @@
 
             <div class="metricas-direita">
               <div class="metrica">
-                <h3>Horas trabalhadas (semana)</h3>
+                <h3>Horas semanais trabalhadas</h3>
                 <p id="horas_trabalhadas">N/A</p>
               </div>
               <div class="metrica" id="metricaDonut">
-                <h3>Tasks finalizadas (semana)</h3>
+                <h3>Tasks finalizadas na semana</h3>
                 <div class="canvas_donut" id="div_canvas_donut">
                   <canvas id="graficoDonut"></canvas>
                   <p id="tasks_finalizadas">N/A</p>
                 </div>
               </div>
               <div class="metrica">
-                <h3>Horas para finalizar <br />tasks restantes</h3>
+                <h3>Tempo para <br />finalizar tasks</h3>
                 <p id="horas_finalizacao">N/A</p>
               </div>
               <div class="metrica">
-                <h3>Média de dificuldade (atividades)</h3>
+                <h3>Média de dificuldade das tasks</h3>
                 <p id="media_dificuldade">N/A</p>
               </div>
             </div>
@@ -150,31 +146,6 @@
     </div>
   </body>
 </html>
-
-<!-- <script>
-  var grafico = document.getElementById('grafico');
-  var divCanvas = document.querySelector('.div_canvas')
-  var divCover = document.querySelector('.div_cover');
-  var metricas = document.querySelector('.container_filtros');
-  var body = document.querySelector("html");
-
-  grafico.addEventListener("click", function (event) {
-    grafico.classList.toggle("canvas--foco");
-    divCanvas.classList.toggle("divCanvas--foco");
-    divCover.classList.toggle("divCover--foco");
-    body.classList.toggle("rotate");
-    console.log('alvo', event.target)
-  })
-
-  document.addEventListener("click", function (event) {
-    if (!grafico.contains(event.target)) {
-      grafico.classList.remove("canvas--foco");
-      divCanvas.classList.remove("divCanvas--foco");
-      divCover.classList.remove("divCover--foco");
-      body.classList.remove("rotate")
-    }
-  })
-</script> -->
 
 <script>
   var idEmpresa = sessionStorage.getItem("ID_EMPRESA");
@@ -196,7 +167,6 @@
   }
 
   function obterDadosGrafico(idComputador, fkComponente) {
-    console.log("OBTER", idComputador, fkComponente);
     fetch(`/medidas/ultimas/${idComputador}/${fkComponente}`, {
       cache: "no-store",
     })
@@ -204,7 +174,7 @@
         if (response.ok) {
           response.json().then(function (resposta) {
             console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
-
+            resposta = resposta.reverse()
             plotarGrafico(resposta, idComputador);
           });
         } else {
@@ -254,36 +224,28 @@
       ],
     };
 
-    console.log("----------------------------------------------");
-    console.log(
-      'Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":'
-    );
-    console.log(resposta);
 
-    // Inserindo valores recebidos em estrutura para plotar o gráfico
     for (i = 0; i < resposta.length; i++) {
       var registro = resposta[i];
       horaCaptura = registro.dataCaptura.split("T")[1];
       horaCaptura = horaCaptura.split(".")[0];
       labels.push(horaCaptura);
-      dados.datasets[0].data.push(registro.captura);
+
+      if (registro.tipoComponente == "usoRam"){
+        let captura = registro.captura;
+        let totalRam = registro.capacidadeRam;
+        let capturaInserida = ((captura / totalRam) * 100).toFixed(2);
+        dados.datasets[0].data.push(capturaInserida);
+      } else{
+        dados.datasets[0].data.push(registro.captura);
+      }
     }
 
-    console.log("----------------------------------------------");
-    console.log("O gráfico será plotado com os respectivos valores:");
-    console.log("Labels:");
-    console.log(labels);
-    console.log("Dados:");
-    console.log(dados.datasets);
-    console.log("----------------------------------------------");
-
-    // Criando estrutura para plotar gráfico - config
     const config = {
       type: "line",
       data: dados,
     };
 
-    // Adicionando gráfico criado em div na tela
     let myChart = new Chart(document.getElementById("grafico"), config);
 
     setTimeout(
@@ -300,20 +262,22 @@
       .then(function (response) {
         if (response.ok) {
           response.json().then(function (novoRegistro) {
-            console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
-            console.log(`Dados atuais do gráfico:`);
-            console.log(dados);
-            // tirando e colocando valores no gráfico
-            dados.labels.shift(); // apagar o primeiro
-            console.log("NOVO REGISTRO:");
-            console.log(novoRegistro[0].dataCaptura);
+            dados.labels.shift();
             horaCaptura = novoRegistro[0].dataCaptura.split("T")[1];
             horaCaptura = horaCaptura.split(".")[0];
-            dados.labels.push(horaCaptura); // incluir um novo momento
-            dados.datasets[0].data.shift(); // apagar o primeiro de umidade
-            dados.datasets[0].data.push(novoRegistro[0].captura); // incluir uma nova medida de umidade
+            dados.labels.push(horaCaptura);
+            dados.datasets[0].data.shift();
+
+            if (novoRegistro[0].tipoComponente == 'usoRam'){
+              let captura = novoRegistro[0].captura;
+              let totalRam = novoRegistro[0].capacidadeRam;
+              let capturaInserida = ((captura / totalRam) * 100).toFixed(2);
+              dados.datasets[0].data.push(capturaInserida);
+            } else{
+              dados.datasets[0].data.push(novoRegistro[0].captura); 
+            }
             myChart.update();
-            // Altere aqui o valor em ms se quiser que o gráfico atualize mais rápido ou mais devagar
+
             proximaAtualizacao = setTimeout(
               () =>
                 atualizarGrafico(idComputador, fkComponente, dados, myChart),
@@ -343,7 +307,6 @@
       .then(function (response) {
         if (response.ok) {
           response.json().then(function (resposta) {
-            console.log(`Dados recebidos DONUTTTTTTTTT: ${JSON.stringify(resposta)}`);
             tasks_finalizadas.innerHTML = `${resposta[0].tasksFinalizadas}/${resposta[0].tasksTotais}`;
             plotarGraficoDonut(resposta);
           });
@@ -399,21 +362,14 @@
     console.log(dados.datasets);
     console.log("----------------------------------------------");
 
-    // Criando estrutura para plotar gráfico - config
     const config = {
       type: "doughnut",
       data: dados,
       options: {
         cutout: '70%',
-        // plugins: {
-        //   tooltip: {
-        //     enabled: false,
-        //   },
-        // },
       },
     };
 
-    // Adicionando gráfico criado em div na tela
     let myChart = new Chart(document.getElementById("graficoDonut"), config);
   }
 
@@ -433,7 +389,8 @@
                   2
                 )}%`;
               } else if (resposta[i].tipoComponente == "usoRam") {
-                txt_uso_ram.innerHTML = `${resposta[i].mediaCaptura.toFixed(
+                usoRamPorcentagem = ((resposta[i].mediaCaptura / 1000) / resposta[i].capacidadeRam) * 100
+                txt_uso_ram.innerHTML = `${usoRamPorcentagem.toFixed(
                   2
                 )}%`;
               } else if (resposta[i].tipoComponente == "tempCpu") {
@@ -478,11 +435,6 @@
       .then(function (response) {
         if (response.ok) {
           response.json().then(function (resposta) {
-            console.log(
-              `Dados recebidos ULTIMAS TASKSSSSSSSSS: ${JSON.stringify(
-                resposta
-              )}`
-            );
             media_dificuldade.innerHTML = resposta[0].pesoTasks;
 
             let minutosTotais = 0;
@@ -512,6 +464,7 @@
               )}:${zeroPad(minutosTasksAFinalizar)}`;
             } else {
               horas_finalizacao.innerHTML = "Sem previsão";
+              horas_finalizacao.style.fontSize = "22px"
             }
           });
         } else {
@@ -553,8 +506,8 @@
               let nomeUsuario = publicacao.nomeUser;
 
               // pegando nome dos usuarios, que está na variavel criada acima
-              var publicacaoPainel = respostaPainel[i];
-              var nomeUser = publicacaoPainel.nomeUser;
+              // var publicacaoPainel = respostaPainel[i];
+              // var nomeUser = publicacaoPainel.nomeUser;
 
               select_computador.innerHTML += `
               <option class= "option" value="${idComputador}" ${
@@ -577,6 +530,7 @@
   console.log("idMaquinaDoUsuarioEscolhido", idUsuarioClicado);
 
   select_computador.addEventListener("change", function () {
+    
     // select_grafico.innerHTML = `<option value="0">Componente</option>`;
     var idComputador = select_computador.value;
 
@@ -594,8 +548,6 @@
 
             for (let i = 0; i < resposta.length; i++) {
               var publicacao = resposta[i];
-              console.log(publicacao);
-
               let idComponente = publicacao.idComponente;
               let componente = publicacao.tipoComponente;
 
@@ -629,10 +581,8 @@
 
   window.addEventListener("load", function () {
     idComputador = select_computador.value;
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAA", idComputador);
 
     var idUsuarioClicado = sessionStorage.getItem("idClicado");
-    console.log("BBBBBBBBBBBB", idUsuarioClicado);
 
     fetch(`/usuarios/componentes/${idUsuarioClicado}`)
       .then(function (resposta) {
@@ -644,7 +594,6 @@
           resposta.json().then(function (resposta) {
             for (let i = 0; i < resposta.length; i++) {
               var publicacao = resposta[i];
-              console.log(publicacao);
 
               let idComponente = publicacao.idComponente;
               let componente = publicacao.tipoComponente;
@@ -666,11 +615,10 @@
 
               // para rodar apenas na primeira opção do select (quando a função é load):
               if (i == 0) {
-                console.log("select", select_grafico);
                 fkComponente = select_grafico.value;
 
                 console.log(fkComponente);
-                div_canvas.innerHTML = `<canvas id="grafico"></canvas>`;
+                div_canvas.innerHTML = `<canvas class= "canvaCanva" id="grafico"></canvas>`;
                 obterDadosGrafico(idUsuarioClicado, fkComponente);
                 obterDadosGraficoDonut(idUsuarioClicado);
                 obterMetricas(idUsuarioClicado);
@@ -678,7 +626,6 @@
             }
           });
 
-          console.log("select2", select_grafico);
         } else {
           throw "Houve um erro na API!";
         }
@@ -691,22 +638,29 @@
   select_grafico.addEventListener("change", function () {
     idComputador = select_computador.value;
 
-    console.log("selectvalue", select_computador.value);
     fkComponente = select_grafico.value;
-
-    console.log("idUsuario", idComputador);
-    console.log("fkComponente", fkComponente);
-
-    console.log("selctao2", select_computador.value);
 
     if (fkComponente == 0) {
       div_canvas.innerHTML = `<span>Selecione um funcionário e um componente para ter acesso aos gráficos.</span>`;
     } else {
-      div_canvas.innerHTML = `<canvas id="grafico"></canvas>`;
+      div_canvas.innerHTML = `<canvas class= "canvaCanva" id="grafico"></canvas>`;
       obterDadosGrafico(idComputador, fkComponente);
     }
   });
+  
+  document.addEventListener("click", function(event) {
+    if (event.target.matches('#grafico')) {
+      var canva = document.querySelector('#grafico');
+      var cover = document.querySelector(".div_cover");
+      var navbar = document.querySelector(".nav-lateral");
+      const html = document.querySelector("html");
+      navbar.classList.toggle('visible')
 
-  // const valores = [select_grafico.value]
-  // console.log('valores', select_grafico.value)
+       html.classList.toggle("html--scroll");
+      canva.classList.toggle('graficoFoco');
+      canva.classList.toggle('canvaCanva')
+      cover.classList.toggle("cover--open");
+    }
+  })
+
 </script>

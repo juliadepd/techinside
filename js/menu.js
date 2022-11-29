@@ -5,9 +5,6 @@ var html = document.querySelector('html');
 var imgOpen = document.querySelector('.img-open');
 var imgX = false;
 
-console.log('antesfuncao', imgOpen.getAttribute('src'))
-console.log('imgX', imgX)
-
 imgOpen.addEventListener('click', function (event) {
   divMenu.classList.toggle('show-menu');
   console.log('click', event.target)
@@ -33,3 +30,13 @@ imgOpen.addEventListener('click', function (event) {
   console.log('imgX', imgX);
 
 });
+
+document.addEventListener('click', function (event) {
+
+  if (event.target.matches('.navbar__itens')) {
+    html.classList.remove('hide-sections');
+  }
+
+})
+
+

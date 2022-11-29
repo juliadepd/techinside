@@ -1,244 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tech Inside | Painel de funcionários</title>
-    <link rel="stylesheet" href="css/painelFuncionarios.css" />
-    <link rel="stylesheet" href="css/dashboard.css" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="js/funcoes.js"></script>
-    <link rel="icon" type="image/x-icon" href="assets/trimmed-icon.png" />
-  </head>
 
-  <body onload="listarUsuarios(), validarSessao()">
-    <div class="cover"></div>
-    <script>
-      window.fwSettings = {
-        widget_id: 150000001098,
-      };
-      !(function () {
-        if ("function" != typeof window.FreshworksWidget) {
-          var n = function () {
-            n.q.push(arguments);
-          };
-          (n.q = []), (window.FreshworksWidget = n);
-        }
-      })();
-    </script>
-    <script
-      type="text/javascript"
-      class="btn-desk"
-      src="https://widget.freshworks.com/widgets/150000001098.js"
-      async
-      defer
-    ></script>
-    <div class="body">
-      <div class="div_cover"></div>
-      <div class="logo-mobile">
-        <img src="assets/logo-versao1.png" alt="" />
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tech Inside | Painel de funcionários</title>
+  <link rel="stylesheet" href="css/painelFuncionarios.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/funcoes.js"></script>
+  <link rel="icon" type="image/x-icon" href="assets/trimmed-icon.png" />
+</head>
+
+<body onload="listarUsuarios()">
+  <div class="cover"></div>
+  <script>
+    window.fwSettings={
+    'widget_id':151000001483
+    };
+    !function(){if("function"!=typeof window.FreshworksWidget){var n=function(){n.q.push(arguments)};n.q=[],window.FreshworksWidget=n}}() 
+  </script>
+  <script type='text/javascript' src='https://widget.freshworks.com/widgets/151000001483.js' async defer></script>
+  <div class="body">
+    <div class="div_cover"></div>
+    <div class="logo-mobile">
+      <img src="assets/logo-versao1.png" alt="" />
+    </div>
+    <div class="menu_lateral">
+      <div class="container_logo">
+        <img src="assets/trimmed-icon.png" />
       </div>
-      <div class="menu_lateral">
-        <div class="container_logo">
-          <img src="assets/trimmed-icon.png" />
+      <ul class="nav-lateral">
+        <a href="dashboard.html">
+          <li class="li-inicial">
+            <img src="assets/icon-dash.png" />
+            <span>Página inicial</span>
+          </li>
+        </a>
+        <a href="painelFuncionarios.html">
+          <li class="li-col agora">
+            <img src="assets/icon-cola.png" />
+            <span>Colaboradores</span>
+          </li>
+        </a>
+
+        <a onclick="window.open('encerrarConta.html', '_blank', 'location=yes, height=360, width=720, status=yes');">
+          <li class="li-col">
+            <img src="assets/deletar-conta.png" />
+            <span>Encerrar conta</span>
+          </li>
+        </a>
+
+        <a href="login.html">
+          <li class="li-sair">
+            <img src="assets/icon-logout.png" />
+            <span>Sair</span>
+          </li>
+        </a>
+      </ul>
+      <img src="assets/icon-logout.png" class="icon-logout" alt="sair" />
+      <button id="btn_sair" onclick="limparSessao()">Sair</button>
+    </div>
+    <div class="content">
+      <div class="menu_top">
+        <div>
+          <h2>Colaboradores <span>/ Máquinas</span></h2>
+          <p>Configurações</p>
         </div>
-        <ul class="nav-lateral">
-          <a href="dashboard.html">
-            <li class="li-inicial">
-              <img src="assets/icon-dash.png" />
-              <span>Página inicial</span>
-            </li>
-          </a>
-          <a href="painelFuncionarios.html">
-            <li class="li-col agora">
-              <img src="assets/icon-cola.png" />
-              <span>Colaboradores</span>
-            </li>
-          </a>
-          <a href="index.html">
-            <li class="li-sair">
-              <img src="assets/icon-logout.png" />
-              <span>Sair</span>
-            </li>
-          </a>
-        </ul>
-        <img src="assets/icon-logout.png" class="icon-logout" alt="sair" />
-        <button id="btn_sair" onclick="limparSessao()">Sair</button>
+        <div class="perfil">
+          <img src="assets/profile_picture.jpg" />
+          <div class="container_nome_cargo">
+            <h3>
+              <span id="nome_usuario">Nome</span>
+              <span id="id_usuario"></span>
+            </h3>
+            <p id="cargo_usuario">Cargo</p>
+          </div>
+        </div>
       </div>
-      <div class="content">
-        <div class="menu_top">
-          <div>
-            <h2>Colaboradores <span>/ Máquinas</span></h2>
-            <p>Configurações</p>
-          </div>
-          <div class="perfil">
-            <img src="assets/profile_picture.jpg" />
-            <div class="container_nome_cargo">
-              <h3>
-                <span id="nome_usuario">Nome</span>
-                <span id="id_usuario"></span>
-              </h3>
-              <p id="cargo_usuario">Cargo</p>
-            </div>
-          </div>
-        </div>
-        <div class="hidden_form" id="hidden_form" style="display: none">
+      <div class="hidden_form" id="hidden_form" style="display: none">
+        <div class="faixa">
           <p class="xizinho">x</p>
-          <h2 id="h2_form"></h2>
-          <div class="ipt_form">
-            Nome:
-            <input type="text" id="ipt_nomeUsuario" placeholder="Nome" /> Cargo:
-            <input type="text" id="ipt_cargoUsuario" placeholder="Cargo" />
-            Setor:
-            <input type="text" id="ipt_setorUsuario" placeholder="Setor" /> CPF:
-            <input type="text" id="ipt_cpfUsuario" placeholder="CPF" /> E-mail:
-            <input type="text" id="ipt_emailUsuario" placeholder="E-mail" />
-            Senha:
-            <input type="password" id="ipt_senhaUsuario" placeholder="Senha" />
-            <div class="div_checkbox">
-              <input type="checkbox" id="chkAdmin" />
-              <label for="chkAdmin">Admin</label>
-            </div>
-          </div>
-          <div id="cardErro">
-            <span id="mensagem_erro"></span>
-          </div>
-          <div id="container_btns"></div>
         </div>
-        <div
-          id="hidden_confirmacao"
-          class="hidden_confirmacao"
-          style="display: none"
-        ></div>
+        <h2 id="h2_form"></h2>
+        <div class="ipt_form">
+          Nome:
+          <input type="text" id="ipt_nomeUsuario" placeholder="Nome" /> Cargo:
+          <input type="text" id="ipt_cargoUsuario" placeholder="Cargo" />
+          Setor:
+          <input type="text" id="ipt_setorUsuario" placeholder="Setor" /> CPF:
+          <input type="text" id="ipt_cpfUsuario" placeholder="CPF" /> E-mail:
+          <input type="text" id="ipt_emailUsuario" placeholder="E-mail" />
+          Senha:
+          <input type="password" id="ipt_senhaUsuario" placeholder="Senha" />
+          <div class="div_checkbox">
+            <input type="checkbox" id="chkAdmin" />
+            <label for="chkAdmin">Admin</label>
+          </div>
+        </div>
+        <div id="cardErro">
+          <span id="mensagem_erro"></span>
+        </div>
+        <div id="container_btns"></div>
+      </div>
+      <div id="hidden_confirmacao" class="hidden_confirmacao" style="display: none"></div>
 
-        <!-- Cadastro Computador -->
-        <div id="hiddenComputador" class="hiddenComputador" style="display: none;">
-          <div class="container_maquina" id="container_maquina">
-          
-          <p onclick="hideComputador()">X</p>
+      <!-- Cadastro Computador -->
+      <div id="hiddenComputador" class="hiddenComputador" style="display: none">
+        <div class="faixa"></div>
+        <div class="container_maquina" id="container_maquina">
+          <p class="xizinho" onclick="hideComputador()">X</p>
           <h2>Cadastrar máquina</h2>
           <div class="form_maquina">
-      
             <div class="left">
-              Marca: <input type="text" id="ipt_marca_maquina">
-              Modelo: <input type="text" id="ipt_modelo_maquina">
-              Serial Number: <input type="text" id="ipt_serial_number_maquina">
+              <input type="text" id="ipt_marca_maquina" placeholder="Marca" />
+              <input type="text" id="ipt_modelo_maquina" placeholder="Modelo" />
+              <input type="text" id="ipt_serial_number_maquina" placeholder="Serial Number" />
             </div>
-
-            
           </div>
           <div class="botao_left" id="botao_left">
             <button id="btn_cadastrar_maquina">Próximo</button>
           </div>
-      
         </div>
-      
-        </div>
+      </div>
 
-        <!-- Cadastro Componente -->
-        <div id="hiddenComponente" class="hiddenComponente" style="display: none;">
-          <div class="containerComponente" id="containerComponente">
-
-          <p onclick="hideComputador()">X</p>
-          <h2>Cadastro Componente</h2>
+      <!-- Cadastro Componente -->
+      <div id="hiddenComponente" class="hiddenComponente" style="display: none">
+        <div class="popup" id="containerComponente">
+          <div class="faixa">
+            <p class="xizinho">X</p>
+          </div>
           <div class="form_maquina_componente">
-            
             <!-- Lado esquerdo do cadastro de componente(popUp) -->
             <div class="componente_left">
-
               <!-- DIV do uso de CPU -->
               <div class="divComponentes">
-
                 <div class="tituloComponentes">
-                  <h4>Deseja monitorar o uso de CPU?</h4>
-                </div> 
-                
-                <div class="chkComponentes">
-                  <label for="chk_uso_cpu"><input type="checkbox" id="chk_uso_cpu"> Sim</label>
-                  <label for="chk_uso_cpu"><input type="checkbox" id="chk_uso_cpu"> Não</label>
+                  <h2>Monitorar o uso de CPU?</h2>
                 </div>
 
-                    <div class="containerChecked">
-                      <input type="text" class="inputMaquinaChecked" id="triggerMaxUsoCpu" placeholder="Trigger max">
-                      <input type="text" class="inputMaquinaChecked" id="triggerMinUsoCpu" placeholder="Trigger min">
-                    </div>
-                    
+                <div class="chkComponentes">
+                  <label for="chk_uso_cpuSim"><input type="checkbox" id="chk_uso_cpuSim" /> Sim</label>
+                  <label for="chk_uso_cpuNao"><input type="checkbox" id="chk_uso_cpuNao" />
+                    Não</label>
+                </div>
+
+                <div class="containerChecked">
+                  <input type="text" class="inputMaquinaChecked" id="triggerMaxUsoCpu" placeholder="Trigger max" />
+                  <input type="text" class="inputMaquinaChecked" id="triggerMinUsoCpu" placeholder="Trigger min" />
+                </div>
               </div>
-              
+
               <!-- DIV da temperatura da CPU -->
               <div class="divComponentes">
-
                 <div class="tituloComponentes">
-                  <h4>Deseja monitorar temperatura da CPU?</h4>
+                  <h2>Monitorar temperatura da CPU?</h2>
                 </div>
-                
+
                 <div class="chkComponentes">
-                  <label for="chk_temperatura_cpu"><input type="checkbox" id="chk_temperatura_cpu"> Sim</label>
-                  <label for="chk_temperatura_cpu"><input type="checkbox" id="chk_temperatura_cpu"> Não</label>
+                  <label for="chk_temperatura_cpuSim"><input type="checkbox" id="chk_temperatura_cpuSim" />
+                    Sim</label>
+                  <label for="chk_temperatura_cpuNao"><input type="checkbox" id="chk_temperatura_cpuNao" />
+                    Não</label>
                 </div>
-                
-                      <div class="containerChecked">
-                        <input type="text" class="inputMaquinaChecked" id="triggerMaxTempCpu" placeholder="Trigger max">
-                        <input type="text" class="inputMaquinaChecked" id="triggerMinTempCpu" placeholder="Trigger min">
-                      </div>
+
+                <div class="containerChecked">
+                  <input type="text" class="inputMaquinaChecked" id="triggerMaxTempCpu" placeholder="Trigger max" />
+                  <input type="text" class="inputMaquinaChecked" id="triggerMinTempCpu" placeholder="Trigger min" />
+                </div>
               </div>
 
               <!-- DIV da RAM -->
-            <div class="divComponentes">
+              <div class="divComponentes">
+                <div class="tituloComponentes">
+                  <h2>Monitorar o uso de RAM?</h2>
+                </div>
 
-              <div class="tituloComponentes">
-                <h4>Deseja monitorar a RAM?</h4>
+                <div class="chkComponentes">
+                  <label for="chk_uso_ramSim"><input type="checkbox" id="chk_uso_ramSim" /> Sim</label>
+                  <label for="chk_uso_ramNao"><input type="checkbox" id="chk_uso_ramNao" />
+                    Não</label>
+                </div>
+
+                <div class="containerCheckedRAM">
+                  <input type="text" class="inputMaquinaChecked" id="inputTotalRam" placeholder="Total da RAM" />
+                  <input type="text" class="inputMaquinaChecked" id="triggerMaxRam" placeholder="Trigger max" />
+                  <input type="text" class="inputMaquinaChecked" id="triggerMinRam" placeholder="Trigger min" />
+                </div>
               </div>
-
-              <div class="chkComponentes">
-                <label for="chk_uso_ram"><input type="checkbox" id="chk_uso_ram"> Sim</label>
-                <label for="chk_uso_ram"><input type="checkbox" id="chk_uso_ram"> Não</label>
-              </div>
-
-                    <div class="containerCheckedRAM">
-                      <input type="text" class="inputMaquinaChecked" id="inputTotalRam" placeholder="Total da RAM">
-                      <input type="text" class="inputMaquinaChecked" id="triggerMaxRam" placeholder="Trigger max">
-                      <input type="text" class="inputMaquinaChecked" id="triggerMinRam" placeholder="Trigger min">
-                    </div>
             </div>
-                    
-                    
-          </div>
 
-          <!-- Texto da checkbox selecionada cadastro componente lado direito(popUp) -->
+            <!-- Texto da checkbox selecionada cadastro componente lado direito(popUp) -->
             <div class="componente_right">
               <div class="container_componente_right">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum error facilis consectetur reprehenderit dicta animi fugit adipisci repellat
-                 quaerat distinctio? Doloremque quo saepe enim magni officia facilis quis libero excepturi.
+                <span id="texto_recomendacao"></span>
               </div>
             </div>
-
           </div>
 
           <!-- Botao do cadastro de componentes(popUp) -->
-          <div class="botao_componente">
-            <button>Cadastrar</button>
+          <div class="botao_componente" id="botaoComponente">
+            <button id="botao_componente">Cadastrar</button>
           </div>
-
         </div>
       </div>
 
-
-
-        <section class="white">
-          <div id="table_wrapper" class="lista">
-            <div class="card">
-              <span class="card__nome--add" onclick="show()">
-                Novo membro
-                <div class="card__iniciais add popup">+</div>
-              </span>
-            </div>
+      <section class="white">
+        <div id="table_wrapper" class="lista">
+          <div class="card">
+            <span class="card__nome--add" onclick="show()">
+              Novo membro
+              <div class="card__iniciais add popup">+</div>
+            </span>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>
 
 <script>
@@ -273,8 +254,7 @@
           }
           resposta.json().then(function (resposta) {
             for (let i = 0; i < resposta.length; i++) {
-              var publicacao = resposta[i]; // i é a posição 0
-              console.log("usuarios", publicacao);
+              var publicacao = resposta[i];
 
               let nomeUsuario =
                 publicacao.userAdmin != null
@@ -298,20 +278,63 @@
                 name.setAttribute("id", idFunc);
                 iniciais.setAttribute("class", "card__iniciais");
                 icons.setAttribute("class", "card__icons");
-                name.innerHTML = `${nomeUsuario}`;
+                name.innerHTML = `<div>${nomeUsuario}<br><span class="setorCard">${areaUser[0].toLocaleUpperCase() + areaUser.substr(1)}</span></div>`;
                 name.appendChild(iniciais);
                 divCard.appendChild(name);
                 iniciais.innerHTML = nomeUsuario[0];
+                let alerta = document.createElement("span");
+
+                divCard.appendChild(alerta);
+
+                const tooltip = document.createElement("div");
+                tooltip.setAttribute("class", "tooltip");
+                divCard.appendChild(tooltip);
+
+                let infoTooltip = document.createElement("h1");
+                infoTooltip.setAttribute("class", "infoTooltip");
+
+                fetch(`/medidas/ultimos-alertas/${idUsuarioLog}`).then(
+                  function (resposta) {
+                    if (resposta.ok) {
+                      if (resposta.status == 204) {
+                        alerta.setAttribute("class", "alerta alerta-green");
+                        tooltip.classList.add("tooltip-green");
+                        // var mensagem = document.createElement("span");
+                        throw "Nenhum resultado encontrado!!";
+                      }
+                      resposta.json().then(function (resposta) {
+                        if (
+                          resposta.some((e) => e.fkAlerta == 1) ||
+                          resposta.some((e) => e.fkAlerta == 4)
+                        ) {
+                          alerta.setAttribute("class", "alerta alerta-red");
+                          tooltip.classList.add("tooltip-red");
+                        } else if (
+                          resposta.some((e) => e.fkAlerta == 2) ||
+                          resposta.some((e) => e.fkAlerta == 3)
+                        ) {
+                          alerta.setAttribute("class", "alerta alerta-orange");
+                          tooltip.classList.add("tooltip-orange");
+                        } else if (resposta.some((e) => e.fkAlerta == 5)) {
+                          alerta.setAttribute("class", "alerta alerta-green");
+                          tooltip.classList.add("tooltip-green");
+                        }
+                      });
+                    } else {
+                      throw "Houve um erro na API!";
+                    }
+                  }
+                );
 
                 icons.innerHTML = `<img class="popup" id="img-lixeira" src="assets/lixeira.png" title="Deletar" onclick="popUpDeletar(${idUsuarioLog}, '${nomeUsuario}')">
               <img class="popup" src="assets/settings-icon.png" title="Gerenciar usuário" onclick="listarFuncionario(${idUsuarioLog})">
-              <img class="popup" src="assets/pc-icon.png" title="Gerenciar máquina" onclick="showMaquina(${idUsuarioLog})">`;
+              <img class="popup" id= "img-maquina" src="assets/pc-icon.png" title="Cadastrar máquina" onclick="showMaquina(${idUsuarioLog})">`;
                 divCard.appendChild(icons);
 
                 listaUsuarios.appendChild(divCard);
               }
             }
-            // nova requisição para pegar o id da maquina cujo dono foi selecionado:
+
             fetch(`/usuarios/listarComp/${idEmpresa}`)
               .then(function (resposta) {
                 if (resposta.ok) {
@@ -348,34 +371,60 @@
       });
   }
 
+  document.addEventListener("change", function (event) {
+    if (event.target.id == "chk_uso_cpuSim") {
+      chk_uso_cpuNao.checked = false;
+    } else if (event.target.id == "chk_uso_cpuNao") {
+      chk_uso_cpuSim.checked = false;
+    }
+
+    if (event.target.id == "chk_uso_ramSim") {
+      chk_uso_ramNao.checked = false;
+    } else if (event.target.id == "chk_uso_ramNao") {
+      chk_uso_ramSim.checked = false;
+    }
+
+    if (event.target.id == "chk_temperatura_cpuSim") {
+      chk_temperatura_cpuNao.checked = false;
+    } else if (event.target.id == "chk_temperatura_cpuNao") {
+      chk_temperatura_cpuSim.checked = false;
+    }
+  });
+
   document.addEventListener("click", function (event) {
     const popup = document.querySelector(".popup");
     const cover = document.querySelector(".cover");
     const html = document.querySelector("html");
+
     const xizinho = document.querySelector(".xizinho");
+
     if (event.target.matches(".xizinho") || event.target.matches(".cover")) {
       cover.classList.remove("cover--open");
-      html.classList.remove("html--scroll");
+      var navbar = document.querySelector(".nav-lateral");
+      navbar.style.visibility = "visible"
+      // html.classList.remove("html--scroll");
       var hidden_div = document.getElementById("hidden_form");
       hidden_div.style.display = "none";
       var hidden2 = document.querySelector(".hiddenComputador");
       hidden2.style.display = "none";
       hidden_confirmacao.style.display = "none";
+      var hidden3 = document.querySelector('#hiddenComponente');
+      hidden3.style.display = "none"
     }
 
     if (event.target.matches(".popup")) {
+
       cover.classList.add("cover--open");
-      html.classList.add("html--scroll");
+      // html.classList.add("html--scroll")
+      var navbar = document.querySelector(".nav-lateral");
+      navbar.style.visibility = "hidden";
     }
 
-    if (event.target.matches(".card__nome")) {
+    if (event.target.closest(".card__nome")) {
       window.location.href = "dashboard.html";
 
-      idClicado = event.target.getAttribute("id").split("$", 2)[1];
-      nomeClicado = event.target.innerHTML.split("<", 2)[0];
-
-      console.log("nomeClicado", nomeClicado);
-      console.log("idMaquinaClicado1", idClicado);
+      idClicado = event.target.parentElement.getAttribute("id").split("$", 2)[1];
+      nomeClicado = event.target.parentElement.innerHTML.split("<", 2)[0];
 
       sessionStorage.setItem("idClicado", idClicado);
       sessionStorage.setItem("nomeClicado", nomeClicado);
@@ -385,8 +434,14 @@
       idClicado = event.target.parentNode.getAttribute("id").split("$", 2)[1];
       nomeClicado = event.target.parentNode.innerHTML.split("<", 2)[0];
 
-      console.log("nomeClicado", nomeClicado);
-      console.log("idMaquinaClicado", idClicado);
+      sessionStorage.setItem("idClicado", idClicado);
+      sessionStorage.setItem("nomeClicado", nomeClicado);
+    }
+
+    if (event.target.matches('.alerta')) {
+      window.location.href = "dashboard.html";
+      idClicado = event.target.parentNode.firstChild.getAttribute("id").split("$", 2)[1];
+      nomeClicado = event.target.parentNode.innerHTML.split("<", 2)[0];
 
       sessionStorage.setItem("idClicado", idClicado);
       sessionStorage.setItem("nomeClicado", nomeClicado);
@@ -399,14 +454,13 @@
           2
         )[0];
 
-      console.log("nomeClicado", nomeClicado);
-
       nomeExcluido = nomeClicado;
     }
   });
 
   function deletarUsuario(idUsuarioLog) {
     let deletUsuarioVar = idUsuarioLog;
+
     fetch(`/usuarios/deletar/${deletUsuarioVar}`, {
       method: "DELETE",
       headers: {
@@ -435,78 +489,32 @@
     hidden_div.style.display = "flex";
 
     hidden_div.innerHTML = `
+    <div class="faixa"></div>
     <h2>Deseja excluir ${nome} dos membros da equipe?</h2>
           <div class="botoes">
-            <button class="xizinho" id="confirma_delet" onclick="deletarUsuario(${idFuncionario})">Sim</button>
-            <button class="xizinho" id="cancela_delet" onclick="fecharPopUpDelet()">Não</button>
+            <button class="xizinho" id="confirma_delet" onclick="deletarUsuario(${idFuncionario})">Ok</button>
+            <button class="xizinho" id="cancela_delet" onclick="fecharPopUpDelet()">Cancelar</button>
           </div>
           `;
   }
 
-  function show() {
-    var hidden_div = document.getElementById("hidden_form");
-    h2_form.innerHTML = "Cadastre um funcionário";
-    hidden_div.style.display = "block";
-    container_btns.innerHTML = `<button id="btn_cadastro" onclick="cadastroUsuario()">Cadastrar</button>`;
-    ipt_nomeUsuario.value = "";
-    ipt_cargoUsuario.value = "";
-    ipt_setorUsuario.value = "";
-    ipt_cpfUsuario.value = "";
-    ipt_emailUsuario.value = "";
-    ipt_senhaUsuario.value = "";
-    chkAdmin.checked = false;
-  }
 
-  // function hideDiv() {
-  //   var hidden_div = document.getElementById("hidden_form")
-  //   hidden_div.style.display = "none"
-  // }
-
-  chk_uso_cpu.addEventListener("click", function (event) {
-    if (chk_uso_cpu.checked) {
-      triggerMaxUsoCpu.style.display = "block";
-      triggerMinUsoCpu.style.display = "block";
-    } else {
-      triggerMaxUsoCpu.style.display = "none";
-      triggerMinUsoCpu.style.display = "none";
-    }
-  });
-  chk_uso_ram.addEventListener("click", function (event) {
-    if (chk_uso_ram.checked) {
-      input_right_totalRam.style.display = "block";
-      triggerMaxRam.style.display = "block";
-      triggerMinRam.style.display = "block";
-    } else {
-      input_right_totalRam.style.display = "none";
-      triggerMaxRam.style.display = "none";
-      triggerMinRam.style.display = "none";
-    }
-  });
-  chk_temperatura_cpu.addEventListener("click", function (event) {
-    if (chk_temperatura_cpu.checked) {
-      triggerMaxTempCpu.style.display = "block";
-      triggerMinTempCpu.style.display = "block";
-    } else {
-      triggerMaxTempCpu.style.display = "none";
-      triggerMinTempCpu.style.display = "none";
-    }
-  });
   function showMaquina(idUsuario) {
     var hidden_div = document.getElementById("hiddenComputador");
     hidden_div.style.display = "block";
-    botao_left.innerHTML = ""
-    botao_left.innerHTML += `<button id="btn_cadastrar_maquina" onclick="cadastroComputador(${idUsuario})">Próximo</button>`
+    botao_left.innerHTML = `<button id="btn_cadastrar_maquina" onclick="cadastroComputador(${idUsuario})">Próximo</button>`;
   }
 
-  function hideComputador(){
-    var hidden_div = document.getElementById("hiddenComputador");
-    hidden_div.style.display = "none";
-  }
+  // function hideComputador() {
+  //   var hidden_div = document.getElementById("hiddenComputador");
+  //   hidden_div.style.display = "none";
+  // }
 
-  function hideMaquina() {
-    var hidden_div = document.getElementById("hiddenComputador");
-    hidden_div.style.display = "none";
-  }
+  // function hideMaquina() {
+  //   var hidden_div = document.getElementById("hiddenComponente");
+  //   hidden_div.style.display = "none";
+  // }
+
   function cadastroUsuario() {
     var nomeUsuarioVar = ipt_nomeUsuario.value;
     var cargoUsuarioVar = ipt_cargoUsuario.value;
@@ -551,11 +559,11 @@
           console.log("resposta: ", resposta);
           if (resposta.ok) {
             setTimeout(function () {
-              alert("Funcionou")
+              alert("Funcionário cadastrado!");
               window.location = "/painelFuncionarios.html";
             }, 1000);
           } else {
-            alert("Não funcionou")
+            alert("Erro ao realizar o cadastro.");
             throw "Houve um erro ao tentar realizar o cadastro!";
           }
         })
@@ -564,11 +572,33 @@
         });
     }
   }
+
+
   function listarFuncionario(idUsuarioLog) {
     var hidden_div = document.getElementById("hidden_form");
     hidden_div.style.display = "block";
-    h2_form.innerHTML = "Gerenciar funcionário";
-    container_btns.innerHTML = `<button id="btn_atualizacao" onclick="atualizarFuncionario(${idUsuarioLog})">Atualizar</button>`;
+
+    hidden_form.innerHTML = `
+    <div class="faixa"><p class="xizinho">x</p></div>
+        <h2 id="h2_form">Configuração de usuários</h2>
+        <div class="ipt_form">
+          Nome:
+          <input type="text" id="ipt_nomeUsuario" placeholder="Nome" /> Cargo:
+          <input type="text" id="ipt_cargoUsuario" placeholder="Cargo" />
+          Setor:
+          <input type="text" id="ipt_setorUsuario" placeholder="Setor" /> CPF:
+          <input type="text" id="ipt_cpfUsuario" placeholder="CPF" /> E-mail:
+          <input type="text" id="ipt_emailUsuario" placeholder="E-mail" />
+          Senha:
+          <input type="password" id="ipt_senhaUsuario" placeholder="Senha" />
+          <div class="div_checkbox">
+            <label for="chkAdmin">Admin</label>
+            <input type="checkbox" id="chkAdmin" />
+          </div>
+        </div>
+        <div id="container_btns">
+          <button id="btn_atualizacao" onclick="atualizarFuncionario(${idUsuarioLog})">Atualizar</button>
+          </div>`;
     fetch(`/usuarios/listarFuncionario/${idUsuarioLog}`, {
       method: "GET",
       headers: {
@@ -664,7 +694,7 @@
   }
 
   //Cadastro do computador
-  function cadastroComputador(idUsuarioLog){
+  function cadastroComputador(idUsuarioLog) {
     var idEmpresaVar = sessionStorage.ID_EMPRESA;
     var idUsuarioLogVar = idUsuarioLog;
 
@@ -673,41 +703,183 @@
     var serialNumberMaquinaVar = ipt_serial_number_maquina.value;
 
     fetch("/usuarios/cadastroComputador", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          idEmpresaServer: idEmpresaVar,
-          idUsuarioServer: idUsuarioLogVar,
-          marcaMaquinaServer: marcaMaquinaVar,
-          modeloMaquinaServer: modeloMaquinaVar,
-          serialNumberMaquinaServer: serialNumberMaquinaVar,
-          
-        })
-      }).then(function (resposta) {
-
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        idEmpresaServer: idEmpresaVar,
+        idUsuarioServer: idUsuarioLogVar,
+        marcaMaquinaServer: marcaMaquinaVar,
+        modeloMaquinaServer: modeloMaquinaVar,
+        serialNumberMaquinaServer: serialNumberMaquinaVar,
+      }),
+    })
+      .then(function (resposta) {
         console.log("resposta: ", resposta);
 
         if (resposta.ok) {
           // setTimeout(function () {
-            var hiddenComputador = document.getElementById("hiddenComputador")
-            hiddenComputador.style.display = "none";
-            hiddenComputador.innerHTML = ""
+          showCadastroComponente();
+          // selectComp()
+          // }, 1000);
+        } else {
+          throw "Houve um erro ao tentar realizar o cadastro!";
+        }
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+      });
+  }
 
-            var hiddenComponente = document.getElementById("hiddenComponente")
+  function showCadastroComponente() {
+    var idComputador = 0;
+    var setorUserVar = sessionStorage.SETOR_USUARIO;
+
+    fetch(`/medidas/ultimo-computador/`, { cache: "no-store" })
+      .then(function (response) {
+        if (response.ok) {
+          response.json().then(function (resposta) {
+            console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+            idComputador = resposta[0].idComputador;
+
+            var hiddenComputador = document.getElementById("hiddenComputador");
+            hiddenComputador.style.display = "none";
+
+            var hiddenComponente = document.getElementById("hiddenComponente");
             hiddenComponente.style.display = "block";
 
-            hiddenComponente.innerHTML += `<button id="btn_cadastrar_componente" onclick="cadastroComponente(${idUsuarioLog})">Cadastrar</button>`
-            // selectComp()
-          // }, 1000);
+            var botaoComponente = document.getElementById("botaoComponente");
 
+            botaoComponente.innerHTML = `<button id="btn_cadastrar_componente" onclick="cadastroComponente(${idComputador})">Cadastrar</button>`;
+
+            fetch(`/medidas/recomendacao-select/${setorUserVar}`, { cache: "no-store" })
+              .then(function (response) {
+                if (response.ok) {
+                  response.json().then(function (resposta) {
+
+                    // RAM
+                    var mediaRAM = resposta[0].mediaUtilizadaRAM
+                    var maxRAM = resposta[0].maxCapturadoRAM
+                    var minRAM = resposta[0].minCapturadoRAM
+
+                    recomendadoMaxRAM = ((maxRAM - mediaRAM) / 2) + mediaRAM
+                    recomendadoMinRAM = ((mediaRAM - minRAM) / 2) + mediaRAM
+
+                    // USO CPU
+                    var mediaUsoCpu = resposta[0].mediaUtilizadaUsoCpu
+                    var maxUsoCpu = resposta[0].maxCapturadoUsoCpu
+                    var minUsoCpu = resposta[0].minCapturadoUsoCpu
+
+                    recomendadoMaxUsoCpu = ((maxUsoCpu - mediaUsoCpu) / 2) + mediaUsoCpu
+                    recomendadoMinUsoCpu = ((mediaUsoCpu - minUsoCpu) / 2) + mediaUsoCpu
+
+                    // TEMP CPU
+                    var mediaTempCpu = resposta[0].mediaUtilizadaTempCpu
+                    var maxTempCpu = resposta[0].maxCapturadoTempCpu
+                    var minTempCpu = resposta[0].minCapturadoTempCpu
+
+                    recomendadoMaxTempCpu = ((maxTempCpu - mediaTempCpu) / 2) + mediaTempCpu
+                    recomendadoMinTempCpu = ((mediaTempCpu - minTempCpu) / 2) + mediaTempCpu
+
+
+                    texto_recomendacao.innerHTML = `Triggers recomendados: <br>
+                  Uso de CPU: Máximo: ${recomendadoMaxUsoCpu.toFixed(2)}% | Mínimo: ${recomendadoMinUsoCpu.toFixed(2)}%<br>
+                  Temperatura CPU: Máximo: ${recomendadoMaxTempCpu.toFixed(1)}°C | Mínimo: ${recomendadoMinTempCpu.toFixed(1)}°C<br>
+                  Uso de RAM: Máximo: ${recomendadoMaxRAM.toFixed(2)}% | Mínimo: ${recomendadoMinRAM.toFixed(2)}%`
+
+                  });
+                } else {
+                  console.error("Nenhum dado encontrado no SELECT");
+                }
+              })
+              .catch(function (error) {
+                console.error(`Erro na obtenção dos dados`);
+              });
+
+            // DAQ PRA CIMA É SELECT
+          });
         } else {
-          throw ("Houve um erro ao tentar realizar o cadastro!");
+          console.error("Nenhum dado encontrado ou erro na API");
         }
-      }).catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-
+      })
+      .catch(function (error) {
+        console.error(`Erro na obtenção dos dados`);
       });
-    }
+  }
+
+  function cadastroComponente(idComputador) {
+    var idComputadorVar = idComputador;
+
+    var chk_uso_cpuSimVar = chk_uso_cpuSim.checked;
+    var chk_uso_cpuNaoVar = chk_uso_cpuNao.checked;
+    var triggerMaxUsoCpuVar = triggerMaxUsoCpu.value;
+    var triggerMinUsoCpuVar = triggerMinUsoCpu.value;
+
+    var chk_temperatura_cpuSimVar = chk_temperatura_cpuSim.checked;
+    var chk_temperatura_cpuNaoVar = chk_temperatura_cpuNao.checked;
+    var triggerMaxTempCpuVar = triggerMaxTempCpu.value;
+    var triggerMinTempCpuVar = triggerMinTempCpu.value;
+
+    var chk_uso_ramSimVar = chk_uso_ramSim.checked;
+    var chk_uso_ramNaoVar = chk_uso_ramNao.checked;
+    var inputTotalRamVar = inputTotalRam.value;
+    var triggerMaxRamVar = triggerMaxRam.value;
+    var triggerMinRamVar = triggerMinRam.value;
+
+    fetch("/usuarios/cadastroComponente", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        idComputadorServer: idComputadorVar,
+        chk_uso_cpuSimServer: chk_uso_cpuSimVar,
+        triggerMaxUsoCpuServer: triggerMaxUsoCpuVar,
+        triggerMinUsoCpuServer: triggerMinUsoCpuVar,
+        chk_temperatura_cpuSimServer: chk_temperatura_cpuSimVar,
+        triggerMaxTempCpuServer: triggerMaxTempCpuVar,
+        triggerMinTempCpuServer: triggerMinTempCpuVar,
+        chk_uso_ramSimServer: chk_uso_ramSimVar,
+        inputTotalRamServer: inputTotalRamVar,
+        triggerMaxRamServer: triggerMaxRamVar,
+        triggerMinRamServer: triggerMinRamVar,
+      }),
+    })
+      .then(function (resposta) {
+        console.log("resposta: ", resposta);
+
+        if (resposta.ok) {
+          // setTimeout(function () {
+          alert("Cadastro de máquina realizado com sucesso!");
+          location.reload();
+          // selectComp()
+          // }, 1000);
+        } else {
+          throw "Houve um erro ao tentar realizar o cadastro!";
+        }
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+      });
+  }
+
+  function show() {
+
+    var hidden_div = document.getElementById("hidden_form");
+    const cover = document.querySelector(".cover");
+    
+    cover.classList.add("cover--open");
+    h2_form.innerHTML = "Cadastre um funcionário";
+    hidden_div.style.display = "block";
+    container_btns.innerHTML = `<button id="btn_cadastro" onclick="cadastroUsuario()">Cadastrar</button>`;
+    ipt_nomeUsuario.value = "";
+    ipt_cargoUsuario.value = "";
+    ipt_setorUsuario.value = "";
+    ipt_cpfUsuario.value = "";
+    ipt_emailUsuario.value = "";
+    ipt_senhaUsuario.value = "";
+    chkAdmin.checked = false;
+  }
 </script>

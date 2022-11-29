@@ -73,9 +73,10 @@
           <h1 class="title">inicie sua sessão</h1>
 
           <div class="div-ipts">
-            <input type="text" id="ipt_email" placeholder="E-mail">
-            <input type="password" id="ipt_senha" placeholder="Senha">
+            <input type="text" id="ipt_email" placeholder="E-mail" class="input">
+            <input type="password" id="ipt_senha" placeholder="Senha" class="input">
 
+            <a href="novaSenha.html" class="esqueceuSenha">Esqueceu a senha?</a>
             <span class="validacao-inativa">Senha incorreta.</span>
           </div>
 
@@ -107,12 +108,14 @@
 
   function validar(frase, alvo) {
     const spanVal = document.querySelector('.validacao-inativa');
+    const listaIpts = document.querySelectorAll('input')
+    let ipt = []
 
     spanVal.classList.add('validacao-ativa')
 
-    alvo.classList.add('red')
-    alvo.value = ""
-
+    alvo.forEach(function (alvo) {
+      alvo.classList.add('red');
+    })
     spanVal.innerHTML = frase
   }
 
@@ -124,50 +127,80 @@
       if (resposta.ok) {
         if (resposta.status == 204) {
 
-          if (emailVar == "" || senhaVar == "") {
-            alert("Existem campos vazios")
+          var emailVar = ipt_email.value;
+          var senhaVar = ipt_senha.value;
 
-            const ipt = document.getElementById('ipt_email');
+          if (emailVar == "" && senhaVar == "") {
+
+            ipt = [ipt_email];
+
+            validar('Campos obrigatórios', ipt);
+
+          } if (emailVar == "" && senhaVar != "") {
+
+            ipt = [ipt_email];
+
             validar('Campo obrigatório', ipt);
 
-            return false;
+          } if (emailVar != "" && senhaVar == "") {
+
+            ipt = [ipt_senha];
+
+            validar('Campo obrigatório', ipt);
           }
 
-          var mensagem = document.createElement("span");
-          throw "Nenhum resultado encontrado!!";
+          else {
+
+            const listaIpts = document.querySelectorAll('input')
+            // limpa todos os campos
+            listaIpts.forEach(function (input) {
+              input.value = ""
+            })
+
+            ipt = [ipt_senha, ipt_email];
+            ipt = [ipt_senha, ipt_email];
+            validar('Usuário ou senha incorretos.', ipt);
+
+            throw "Nenhum resultado encontrado!!";
+          }
         }
         resposta.json().then(function (resposta) {
           for (let i = 0; i < resposta.length; i++) {
-            var publicacao = resposta[i]; // i é a posição 0
-            console.log(publicacao);
+            var publicacao = resposta[i];
 
             // Aqui eu crio as var (let é a mesma coisa que var) dos dados que quero apresentar no site:
             // Temos que colocar publicação.Nome do campo do banco de dados:
             let isAdminUser = publicacao.userAdmin
 
-            if (isAdminUser != null) {
+            if (isAdminUser != null && ipt_senha.value != null) {
               isAdminUser = `= ${isAdminUser}`
-              let todosIpt = ""
+
+              ipt = [ipt_senha];
 
               const inputs = document.querySelectorAll('input');
-              inputs.forEach((input) => {
-                todosIpt = input
+              validar('Usuário sem permissão de acesso.', ipt);
 
-                validar('', todosIpt);
+              // limpa todos os campos
+              inputs.forEach(function (input) {
+                input.value = ""
               })
-
-              validar('Usuário sem permissão de acesso.', todosIpt);
 
             } else {
               isAdminUser = "is NULL"
               entrar(isAdminUser)
             }
-
-
           }
-
         })
       } else {
+        // var isAdminUserVar = isAdminUser
+        var emailVar = ipt_email.value;
+        var senhaVar = ipt_senha.value;
+
+        if (emailVar == "" && senhaVar == "") {
+          ipt = [ipt_email, ipt_senha];
+
+          validar('Campos obrigatórios', ipt);
+        }
         throw ('Houve um erro na API!');
       }
     }).catch(function (resposta) {
@@ -175,86 +208,97 @@
     });
   }
 
-
   function entrar(isAdminUser) {
+
     var isAdminUserVar = isAdminUser
     var emailVar = ipt_email.value;
     var senhaVar = ipt_senha.value;
 
-    contador += 1;
 
-    if (emailVar == "" || senhaVar == "") {
-      alert("Existem campos vazios")
-
-      const alvo = document.querySelec
-
-      const ipt = document.getElementById('ipt_email');
-      validar('Campo obrigatório', ipt);
-
-      return false;
-    } else {
-
-      // console.log("FORM LOGIN: ", emailVar);
-      // console.log("FORM SENHA: ", senhaVar);
-      // console.log("FORM Admin: ", isAdminUserVar);
-
-      fetch("/usuarios/autenticar", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          emailServer: emailVar,
-          senhaServer: senhaVar,
-          isAdminUserServer: isAdminUserVar
-        })
-      }).then(function (resposta) {
-        console.log("ESTOU NO THEN DO entrar()!")
-
-        if (resposta.ok) {
-          console.log(resposta);
-
-          resposta.json().then(json => {
-            console.log(json);
-            console.log(JSON.stringify(json));
-
-            sessionStorage.NOME_USUARIO = json.nomeUser;
-            sessionStorage.ID_USUARIO = json.idUsuario;
-            sessionStorage.ID_EMPRESA = json.fkEmpresa;
-            sessionStorage.CARGO_USUARIO = json.cargoUser;
-
-            setTimeout(function () {
-              window.location = "/painelFuncionarios.html";
-            }, 1000);
-
-          });
-
-        } else {
-          console.log("Houve um erro ao tentar realizar o login!");
-
-          validar('Login ou senha incorretos.');
-
-          const inputs = document.querySelectorAll('input');
-          inputs.forEach((input) => {
-            todosIpt = input
-
-            validar('', todosIpt);
-          })
-
-          validar('Usuário sem permissão de acesso.', todosIpt);
-
-          resposta.text().then(texto => {
-            console.error(texto);
-          });
-        }
-
-      }).catch(function (erro) {
-        console.log(erro);
+    fetch("/usuarios/autenticar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        emailServer: emailVar,
+        senhaServer: senhaVar,
+        isAdminUserServer: isAdminUserVar
       })
+    }).then(function (resposta) {
 
-      return false;
-    }
+      if (resposta.ok) {
+
+        resposta.json().then(json => {
+        
+          if(json.ativoEmpresa && json.ativoUsuario){
+          console.log(json);
+          console.log(JSON.stringify(json));
+
+          sessionStorage.NOME_USUARIO = json.nomeUser;
+          sessionStorage.ID_USUARIO = json.idUsuario;
+          sessionStorage.ID_EMPRESA = json.fkEmpresa;
+          sessionStorage.CARGO_USUARIO = json.cargoUser;
+          sessionStorage.SETOR_USUARIO = json.setorUser;
+
+          setTimeout(function () {
+            window.location = "/painelFuncionarios.html";
+          }, 1000);
+          }else{
+            alert('Você não possui mais acesso a essa página. Caso tenha alguma dúvida por favor entrar em contato via email!')
+          }
+
+
+        });
+
+      } else {
+        console.log("Houve um erro ao tentar realizar o login!");
+
+        const listaIpts = document.querySelectorAll('input')
+        // limpa todos os campos
+        listaIpts.forEach(function (input) {
+          input.value = ""
+        })
+
+        ipt = [ipt_senha, ipt_email];
+
+        validar('Login ou senha incorretos.', ipt);
+
+        const inputs = document.querySelectorAll('input');
+
+        resposta.text().then(texto => {
+          console.error(texto);
+        });
+      }
+
+    }).catch(function (erro) {
+      console.log(erro);
+    })
+    return false;
   }
 
+  document.addEventListener('click', function (event) {
+
+    if (event.target.matches('.red')) {
+      var esqueceu = document.querySelector('.esqueceuSenha');
+      const spanVal = document.querySelector('.validacao-inativa');
+      const listaIpts = document.querySelectorAll('input')
+      let ipt = []
+
+      spanVal.classList.remove('validacao-ativa')
+
+      event.target.classList.remove('red')
+
+      esqueceu.style.visibility = "visible"
+    }
+  })
+
+  document.addEventListener('keyup', function (event) {
+    var tecla = event.keyCode;
+
+    if (tecla == 9) {
+      event.target.classList.remove('red')
+    }
+  })
 
 </script>
